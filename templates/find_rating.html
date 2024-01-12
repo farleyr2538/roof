@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+
+    Find a Rating
+
+{% endblock %}
+
+{% block main %}
+
+    <div class="container d-flex flex-column justify-content-center my-5">
+        <div class="col-12 col-md-4 offset-md-4">
+            <div class="mb-3 justify-content-center">
+                <h3>Search for a rating</h3>
+            </div>
+            <div>
+                <form action="/search", method=POST>
+                    <input class="form-control" type="text" name="search" placeholder="search for an address" autocomplete="off">
+                    <button class="btn btn-primary form-control" type="submit">Go</button>
+                </form>
+            </div>
+            <div>
+                <a href="/find-rating">
+                    <button class="btn form-control" type="button">
+                        Show all ratings
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped ">
+            <tr>
+                <th>First Name</th>
+                <th>Address</th>
+                <th>Postcode</th>
+                <th>Landlord Rating</th>
+                <th>Years spent at the property</th>
+            </tr>
+        {% for x in ratings %}
+            <tr>
+                <td>{{ x['fn'] }}</td>
+                <td>{{ x['address'] }}</td>
+                <td>{{ x['postcode'] }}</td>
+                <td>{{ x['rating'] }}</td>
+                <td>{{ x['years'] }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}
