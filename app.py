@@ -1,12 +1,11 @@
 import os
+import sqlite3
 from flask import Flask, render_template, redirect, request, session
-from cs50 import SQL
-from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 
 app = Flask(__name__)
-db = SQL("sqlite:///project.db")
+db = sqlite3.connect("sqlite:///project.db")
 
 @app.route("/")
 def index():
@@ -42,7 +41,7 @@ def find_rating():
 
 @app.route("/search", methods=["POST"])
 def search():
-    db = SQL("sqlite:///project.db")
+    db = sqlite3.connect("sqlite:///project.db")
     term = request.form.get("search")
     search_term = ("%" + term + "%")
     ratings = db.execute("SELECT * FROM ratings WHERE address LIKE ? OR postcode LIKE ?;", search_term, search_term)
