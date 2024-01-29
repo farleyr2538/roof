@@ -1,13 +1,33 @@
 import os
-import sqlite3
 from flask import Flask, render_template, redirect, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import or_
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///project.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+class ratings(db.Model):
+    fn = db.Column(db.String, nullable=False)
+    ln = db.Column(db.String, nullable=False)
+    address = db.Column(db.String, nullable=False)
+    postcode = db.Column(db.String, nullable=False)
+    rating = db.Column(db.Integer, nullable=False)
+    years = db.Column(db.String, nullable=False)
+    time = db.Column(db.String, nullable=False)
+
+class users(db.Model):
+    fn = db.Column(db.String, nullable=False)
+    ln = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=False)
+
+if __name__ == '__main__':
+    with app.app_context():
+        db.create_all()
+    app.run()
 
 @app.route("/")
 def index():
@@ -27,9 +47,11 @@ def submit():
         years_string = ", ".join(years)
         time = datetime.now()
 
-        db.execute('INSERT INTO ratings (fn, ln, address, postcode, rating, years, time) VALUES (?, ?, ?, ?, ?, ?, ?)', fn, ln, address, postcode, rating, years_string, time)
-        db.execute('INSERT INTO users (fn, ln, email) VALUES (?, ?, ?)', fn, ln, email)
-        database.commit()
+        rating = ratings(fn = fn, ln = ln, address=address, postcode=postcode, email=email, rating=rating, years=years_string, time=time)
+        user = users(fn=fn, ln=ln, email=email)
+        db.session.add(rating)
+        db.session.add(user)
+        db.session.commit()
 
         return render_template('submit.html')
 
@@ -39,15 +61,17 @@ def form():
 
 @app.route("/find-rating", methods=["GET", "POST"])
 def find_rating():
-    ratings = db.execute('SELECT * FROM ratings;')
-    database.commit()
-    return render_template('find_rating.html', ratings=ratings)
+    all_ratings = ratings.query.all()
+    return render_template('find_rating.html', ratings=all_ratings)
 
 @app.route("/search", methods=["POST"])
 def search():
-    db = sqlite3.connect("sqlite:///project.db")
     term = request.form.get("search")
     search_term = ("%" + term + "%")
-    ratings = db.execute("SELECT * FROM ratings WHERE address LIKE ? OR postcode LIKE ?;", search_term, search_term)
-    database.commit()
-    return render_template('find_rating.html', ratings=ratings)
+    rv = ratings.query.filter(
+        or_ (
+            ratings.address.like(f"%{term}"),
+            ratings.postcode.like(f"%{term}")
+        )
+    )
+    return render_template('find_rating.html', ratings=rv)
