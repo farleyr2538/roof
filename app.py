@@ -10,6 +10,8 @@ database = sqlite3.connect(app.config['DATABASE'])
 database.row_factory = sqlite3.Row
 db = database.cursor()
 
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
 @app.route("/")
 def index():
     return render_template('index.html')
