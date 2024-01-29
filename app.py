@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///project.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -29,49 +29,49 @@ if __name__ == '__main__':
         db.create_all()
     app.run()
 
-@app.route("/")
-def index():
-    return render_template('index.html')
+    @app.route("/")
+    def index():
+        return render_template('index.html')
 
-@app.route("/submit", methods=["GET", "POST"])
-def submit():
-    if request.method == "POST":
-        # assign data to variables
-        fn = request.form.get("first_name")
-        ln = request.form.get("last_name")
-        address = request.form.get("address")
-        postcode = request.form.get("postcode")
-        email = request.form.get("email")
-        rating = request.form.get("rating")
-        years = request.form.getlist("years[]")
-        years_string = ", ".join(years)
-        time = datetime.now()
+    @app.route("/submit", methods=["GET", "POST"])
+    def submit():
+        if request.method == "POST":
+            # assign data to variables
+            fn = request.form.get("first_name")
+            ln = request.form.get("last_name")
+            address = request.form.get("address")
+            postcode = request.form.get("postcode")
+            email = request.form.get("email")
+            rating = request.form.get("rating")
+            years = request.form.getlist("years[]")
+            years_string = ", ".join(years)
+            time = datetime.now()
 
-        rating = ratings(fn = fn, ln = ln, address=address, postcode=postcode, email=email, rating=rating, years=years_string, time=time)
-        user = users(fn=fn, ln=ln, email=email)
-        db.session.add(rating)
-        db.session.add(user)
-        db.session.commit()
+            rating = ratings(fn = fn, ln = ln, address=address, postcode=postcode, email=email, rating=rating, years=years_string, time=time)
+            user = users(fn=fn, ln=ln, email=email)
+            db.session.add(rating)
+            db.session.add(user)
+            db.session.commit()
 
-        return render_template('submit.html')
+            return render_template('submit.html')
 
-@app.route("/rate", methods=["GET", "POST"])
-def form():
-    return render_template('form.html')
+    @app.route("/rate", methods=["GET", "POST"])
+    def form():
+        return render_template('form.html')
 
-@app.route("/find-rating", methods=["GET", "POST"])
-def find_rating():
-    all_ratings = ratings.query.all()
-    return render_template('find_rating.html', ratings=all_ratings)
+    @app.route("/find-rating", methods=["GET", "POST"])
+    def find_rating():
+        all_ratings = ratings.query.all()
+        return render_template('find_rating.html', ratings=all_ratings)
 
-@app.route("/search", methods=["POST"])
-def search():
-    term = request.form.get("search")
-    search_term = ("%" + term + "%")
-    rv = ratings.query.filter(
-        or_ (
-            ratings.address.like(f"%{term}"),
-            ratings.postcode.like(f"%{term}")
+    @app.route("/search", methods=["POST"])
+    def search():
+        term = request.form.get("search")
+        search_term = ("%" + term + "%")
+        rv = ratings.query.filter(
+            or_ (
+                ratings.address.like(f"%{term}"),
+                ratings.postcode.like(f"%{term}")
+            )
         )
-    )
-    return render_template('find_rating.html', ratings=rv)
+        return render_template('find_rating.html', ratings=rv)
