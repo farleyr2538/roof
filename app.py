@@ -5,8 +5,8 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['DATABASE'] = os.path.join(app.root_path, 'project.db')
-database = sqlite3.connect(app.config['DATABASE'])
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+database = sqlite3.connect(app.config['SQLALCHEMY_DATABASE_URI'])
 database.row_factory = sqlite3.Row
 db = database.cursor()
 
