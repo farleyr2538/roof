@@ -5,7 +5,10 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 
 app = Flask(__name__)
-db = sqlite3.connect("sqlite:///project.db")
+app.config['DATABASE'] = os.path.join(app.root_path, 'project.db')
+database = sqlite3.connect(app.config['DATABASE'])
+database.row_factory = sqlite3.Row
+db = database.cursor()
 
 @app.route("/")
 def index():
@@ -27,6 +30,7 @@ def submit():
 
         db.execute('INSERT INTO ratings (fn, ln, address, postcode, rating, years, time) VALUES (?, ?, ?, ?, ?, ?, ?)', fn, ln, address, postcode, rating, years_string, time)
         db.execute('INSERT INTO users (fn, ln, email) VALUES (?, ?, ?)', fn, ln, email)
+        database.commit()
 
         return render_template('submit.html')
 
@@ -37,6 +41,7 @@ def form():
 @app.route("/find-rating", methods=["GET", "POST"])
 def find_rating():
     ratings = db.execute('SELECT * FROM ratings;')
+    database.commit()
     return render_template('find_rating.html', ratings=ratings)
 
 @app.route("/search", methods=["POST"])
@@ -45,4 +50,5 @@ def search():
     term = request.form.get("search")
     search_term = ("%" + term + "%")
     ratings = db.execute("SELECT * FROM ratings WHERE address LIKE ? OR postcode LIKE ?;", search_term, search_term)
+    database.commit()
     return render_template('find_rating.html', ratings=ratings)
