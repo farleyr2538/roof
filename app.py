@@ -4,11 +4,12 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_
+from sqlalchemy.dialects.postgresql import psycopg2
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+db = SQLAlchemy(app, session_options={"autoflush": False})
 
 class ratings(db.Model):
     fn = db.Column(db.String, nullable=False)
