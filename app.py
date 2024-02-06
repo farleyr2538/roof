@@ -11,6 +11,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app, session_options={"autoflush": False})
 
+print("Database URL:", app.config['SQLALCHEMY_DATABASE_URI'])
+
 class ratings(db.Model):
     fn = db.Column(db.String, nullable=False)
     ln = db.Column(db.String, nullable=False)
