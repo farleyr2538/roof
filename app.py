@@ -9,8 +9,7 @@ from sqlalchemy.dialects.postgresql import psycopg2
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app, session_options={"autoflush": False})
+db = SQLAlchemy(app)
 
 print("Database URL:", app.config['SQLALCHEMY_DATABASE_URI'])
 
