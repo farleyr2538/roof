@@ -73,7 +73,7 @@ def form():
 
 @app.route("/find-rating", methods=["GET", "POST"])
 def find_rating():
-    all_ratings = ratings.query.all()
+    all_ratings = Rating.query.all()
     return render_template('find_rating.html', ratings=all_ratings)
 
 @app.route("/search", methods=["POST"])
