@@ -18,7 +18,7 @@ class Base(DeclarativeBase):
 db = SQLAlchemy(app)
 
 metadata_obj = MetaData()
-# engine = create_engine(link)
+engine = create_engine(link)
 
 ratings = Table(
     "ratings",
@@ -100,11 +100,10 @@ if __name__ == '__main__':
     @app.route("/search", methods=["POST"])
     def search():
         term = request.form.get("search")
-        search_term = ("%" + term + "%")
-        rv = ratings.query.filter(
+        rv = Rating.query.filter(
             or_ (
-                ratings.address.like(f"%{term}"),
-                ratings.postcode.like(f"%{term}")
+                Rating.address.like(f"%{term}%"),
+                Rating.postcode.like(f"%{term}%")
             )
         )
         return render_template('find_rating.html', ratings=rv)
