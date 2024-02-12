@@ -27,6 +27,7 @@ print("Database URL:", app.config['SQLALCHEMY_DATABASE_URI'])
 ratings = Table(
     "ratings",
     metadata_obj,
+    Column("rating_id", Integer, primary_key=True),
     Column("fn", String),
     Column("ln", String),
     Column("address", String),
@@ -39,6 +40,7 @@ ratings = Table(
 users = Table(
     "users",
     metadata_obj,
+    Column("user_id", Integer, primary_key=True),
     Column("fn", String),
     Column("ln", String),
     Column("email", String)
