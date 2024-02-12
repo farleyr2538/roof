@@ -80,8 +80,8 @@ if __name__ == '__main__':
             years_string = ", ".join(years)
             time = datetime.now()
 
-            rating = ratings(fn = fn, ln = ln, address=address, postcode=postcode, email=email, rating=rating, years=years_string, time=time)
-            user = users(fn=fn, ln=ln, email=email)
+            rating = Rating(fn = fn, ln = ln, address=address, postcode=postcode, email=email, rating=rating, years=years_string, time=time)
+            user = User(fn=fn, ln=ln, email=email)
             db.session.add(rating)
             db.session.add(user)
             db.session.commit()
