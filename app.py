@@ -22,7 +22,7 @@ engine = create_engine(link)
 
 class Rating(db.Model):
     __tablename__ = 'ratings'
-    rating_id = db.Column(db.Integer, primary_key=True) 
+    rating_id = db.Column(db.Integer, primary_key=True, autoincrement=True) 
     fn = db.Column(db.String, nullable=False)
     ln = db.Column(db.String, nullable=False)
     address = db.Column(db.String, nullable=False)
@@ -33,7 +33,7 @@ class Rating(db.Model):
 
 class User(db.Model):
     __tablename__ = 'users'
-    user_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     fn = db.Column(db.String, nullable=False)
     ln = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
