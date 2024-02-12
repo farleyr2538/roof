@@ -15,7 +15,7 @@ link = app.config['SQLALCHEMY_DATABASE_URI']
 class Base(DeclarativeBase):
     pass
 
-db = SQLAlchemy(model_class=Base)
+db = SQLAlchemy(app)
 
 db.init_app(app)
 
