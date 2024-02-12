@@ -42,22 +42,6 @@ users = Table(
     Column("email", String)
 )
 
-class Rating(db.Model):
-    rating_id = db.Column(db.Integer, primary_key=True) 
-    fn = db.Column(db.String, nullable=False)
-    ln = db.Column(db.String, nullable=False)
-    address = db.Column(db.String, nullable=False)
-    postcode = db.Column(db.String, nullable=False)
-    rating = db.Column(db.Integer, nullable=False)
-    years = db.Column(db.String, nullable=False)
-    time = db.Column(db.String, nullable=False)
-
-class User(db.Model):
-    user_id = db.Column(db.Integer, primary_key=True)
-    fn = db.Column(db.String, nullable=False)
-    ln = db.Column(db.String, nullable=False)
-    email = db.Column(db.String, nullable=False)
-
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
