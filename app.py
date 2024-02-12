@@ -20,29 +20,8 @@ db = SQLAlchemy(app)
 metadata_obj = MetaData()
 engine = create_engine(link)
 
-ratings = Table(
-    "ratings",
-    metadata_obj,
-    Column("rating_id", Integer, primary_key=True),
-    Column("fn", String),
-    Column("ln", String),
-    Column("address", String),
-    Column("postcode", String),
-    Column("rating", Integer),
-    Column("years", String),
-    Column("time", String)
-)
-
-users = Table(
-    "users",
-    metadata_obj,
-    Column("user_id", Integer, primary_key=True),
-    Column("fn", String),
-    Column("ln", String),
-    Column("email", String)
-)
-
 class Rating(db.Model):
+    __tablename__ = 'ratings'
     rating_id = db.Column(db.Integer, primary_key=True) 
     fn = db.Column(db.String, nullable=False)
     ln = db.Column(db.String, nullable=False)
@@ -53,6 +32,7 @@ class Rating(db.Model):
     time = db.Column(db.String, nullable=False)
 
 class User(db.Model):
+    __tablename__ = 'users'
     user_id = db.Column(db.Integer, primary_key=True)
     fn = db.Column(db.String, nullable=False)
     ln = db.Column(db.String, nullable=False)
