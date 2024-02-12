@@ -4,16 +4,45 @@ from flask import Flask, render_template, redirect, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Table, Column, String, MetaData, Integer, Computed, Text, create_engine, event, MetaData, or_
 from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy import or_
-import sqlalchemy.dialects.postgresql
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://cbxuyldqyifqcu:95de1fa4afcafdf7df6bfcd075109614bafd6dc7e2244bb754aeb7ce042e2540@ec2-44-215-40-87.compute-1.amazonaws.com:5432/dfk6dqpg7rk537'
+link = app.config['SQLALCHEMY_DATABASE_URI']
 
-db = SQLAlchemy(app)
+class Base(DeclarativeBase):
+    pass
+
+db = SQLAlchemy(model_class=Base)
+
+db.init_app(app)
+
+metadata_obj = MetaData()
+engine = create_engine(link)
 
 print("Database URL:", app.config['SQLALCHEMY_DATABASE_URI'])
+
+ratings = Table(
+    "ratings",
+    metadata_obj,
+    Column("fn", String),
+    Column("ln", String),
+    Column("address", String),
+    Column("postcode", String),
+    Column("rating", Integer),
+    Column("years", String),
+    Column("time", String)
+)
+
+users = Table(
+    "users",
+    metadata_obj,
+    Column("fn", String),
+    Column("ln", String),
+    Column("email", String)
+)
 
 class ratings(db.Model):
     fn = db.Column(db.String, nullable=False)
@@ -31,7 +60,7 @@ class users(db.Model):
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()
+        metadata_obj.create_all()
     app.run()
 
     @app.route("/")
