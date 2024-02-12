@@ -45,6 +45,7 @@ users = Table(
 )
 
 class ratings(db.Model):
+    rating_id = db.Column(db.Integer, primary_key=True) 
     fn = db.Column(db.String, nullable=False)
     ln = db.Column(db.String, nullable=False)
     address = db.Column(db.String, nullable=False)
@@ -54,6 +55,7 @@ class ratings(db.Model):
     time = db.Column(db.String, nullable=False)
 
 class users(db.Model):
+    user_id = db.Column(db.Integer, primary_key=True)
     fn = db.Column(db.String, nullable=False)
     ln = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
