@@ -18,7 +18,7 @@ class Base(DeclarativeBase):
 db = SQLAlchemy(app)
 
 metadata_obj = MetaData()
-engine = create_engine(link)
+# engine = create_engine(link)
 
 ratings = Table(
     "ratings",
