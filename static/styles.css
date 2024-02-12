@@ -1,7 +1,3 @@
-div {
-    /* outline: black dotted thin; */
-}
-
 .navbar-brand {
     font-weight: bold;
 }
@@ -48,5 +44,5 @@ label {
 
 .form_background {
     background: #FFD580;
-    border-radius: 20px;"
+    border-radius: 20px;
 }
