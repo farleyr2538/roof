@@ -44,7 +44,7 @@ users = Table(
     Column("email", String)
 )
 
-class ratings(db.Model):
+class ratings_model(db.Model):
     rating_id = db.Column(db.Integer, primary_key=True) 
     fn = db.Column(db.String, nullable=False)
     ln = db.Column(db.String, nullable=False)
@@ -54,7 +54,7 @@ class ratings(db.Model):
     years = db.Column(db.String, nullable=False)
     time = db.Column(db.String, nullable=False)
 
-class users(db.Model):
+class users_model(db.Model):
     user_id = db.Column(db.Integer, primary_key=True)
     fn = db.Column(db.String, nullable=False)
     ln = db.Column(db.String, nullable=False)
