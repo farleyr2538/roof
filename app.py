@@ -1,4 +1,5 @@
 import os
+import psycopg2
 from flask import Flask, render_template, redirect, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import datetime
@@ -8,7 +9,8 @@ from sqlalchemy import or_
 from sqlalchemy.dialects.postgresql import psycopg2
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://cbxuyldqyifqcu:95de1fa4afcafdf7df6bfcd075109614bafd6dc7e2244bb754aeb7ce042e2540@ec2-44-215-40-87.compute-1.amazonaws.com:5432/dfk6dqpg7rk537'
+
 db = SQLAlchemy(app)
 
 print("Database URL:", app.config['SQLALCHEMY_DATABASE_URI'])
