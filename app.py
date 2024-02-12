@@ -20,8 +20,6 @@ db = SQLAlchemy(app)
 metadata_obj = MetaData()
 engine = create_engine(link)
 
-print("Database URL:", app.config['SQLALCHEMY_DATABASE_URI'])
-
 ratings = Table(
     "ratings",
     metadata_obj,
