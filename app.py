@@ -59,7 +59,7 @@ def submit():
         years_string = ", ".join(years)
         time = datetime.now()
 
-        rating = Rating(fn = fn, ln = ln, address=address, postcode=postcode, email=email, rating=rating, years=years_string, time=time)
+        rating = Rating(fn = fn, ln = ln, address=address, postcode=postcode, rating=rating, years=years_string, time=time)
         user = User(fn=fn, ln=ln, email=email)
         db.session.add(rating)
         db.session.add(user)
