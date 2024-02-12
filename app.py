@@ -6,7 +6,7 @@ from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy import or_
-from sqlalchemy.dialects.postgresql import psycopg2
+import sqlalchemy.dialects.postgresql
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://cbxuyldqyifqcu:95de1fa4afcafdf7df6bfcd075109614bafd6dc7e2244bb754aeb7ce042e2540@ec2-44-215-40-87.compute-1.amazonaws.com:5432/dfk6dqpg7rk537'
