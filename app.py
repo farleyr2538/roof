@@ -42,7 +42,7 @@ users = Table(
     Column("email", String)
 )
 
-class ratings_model(db.Model):
+class Rating(db.Model):
     rating_id = db.Column(db.Integer, primary_key=True) 
     fn = db.Column(db.String, nullable=False)
     ln = db.Column(db.String, nullable=False)
@@ -52,7 +52,7 @@ class ratings_model(db.Model):
     years = db.Column(db.String, nullable=False)
     time = db.Column(db.String, nullable=False)
 
-class users_model(db.Model):
+class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True)
     fn = db.Column(db.String, nullable=False)
     ln = db.Column(db.String, nullable=False)
@@ -60,8 +60,7 @@ class users_model(db.Model):
 
 if __name__ == '__main__':
     with app.app_context():
-        metadata_obj.create_all()
-    app.run()
+        db.create_all()
 
     @app.route("/")
     def index():
