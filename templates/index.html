@@ -9,9 +9,11 @@
 {% block main %}
     <div class="container overflow-hidden">
         <h1 id="title">Welcome to Roof!</h1>
-        <video autoplay muted loop class="object-fit-fill">
-            <source src="static/background.mp4" type="video/mp4">
-        </video>
+        <div class="embed-responsive-item embed-responsive-16by9">
+            <video autoplay muted loop class="object-fit-fill ">
+                <source src="static/background.mp4" type="video/mp4">
+            </video>
+        </div>
     </div>
     <div class="container d-flex flex-column" id="content">
         <div class="row justify-content-center">
