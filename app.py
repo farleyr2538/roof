@@ -1,11 +1,9 @@
-import os
-import psycopg2
-from flask import Flask, render_template, redirect, request, session
-from werkzeug.security import check_password_hash, generate_password_hash
+
+from flask import Flask, render_template, request
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Table, Column, String, MetaData, Integer, Computed, Text, create_engine, event, MetaData, or_
-from sqlalchemy.orm import DeclarativeBase, Mapped
+from sqlalchemy import MetaData, create_engine, MetaData, or_
+from sqlalchemy.orm import DeclarativeBase
 
 
 app = Flask(__name__)
