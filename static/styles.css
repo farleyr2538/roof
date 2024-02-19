@@ -61,4 +61,5 @@ label {
 
 #content {
     position: fixed;
+    bottom: 0;
 }
