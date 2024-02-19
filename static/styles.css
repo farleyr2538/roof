@@ -49,9 +49,6 @@ label {
 
 #landing {
     border-radius: 10px;
-}
-
-#video {
     position: fixed;
     right: 0;
     bottom: 0;
