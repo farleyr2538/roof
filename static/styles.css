@@ -50,3 +50,8 @@ label {
 #landing {
     border-radius: 10px;
 }
+
+#video {
+    position: fixed;
+    width: 100%;
+}
