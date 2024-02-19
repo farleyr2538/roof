@@ -51,6 +51,7 @@ label {
 }
 
 video {
+    position: absolute;
     width: 100%;
     height: auto;
     z-index: 0;
