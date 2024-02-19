@@ -10,6 +10,7 @@ button {
     padding-top: 200px;
     padding-bottom: 200px;
     padding-left: 50px;
+    padding-right: 50px;
     text-align: left;
 }
 
@@ -54,9 +55,4 @@ label {
 #video {
     position: fixed;
     width: 100%;
-}
-
-#content {
-    position: fixed;
-    bottom: 0;
 }
