@@ -9,7 +9,9 @@ from sqlalchemy.orm import DeclarativeBase, Mapped
 
 
 app = Flask(__name__)
+print("OS.ENVIRON.GET value for database's URL: ", os.environ.get('DATABASE_URL'))
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+
 link = app.config['SQLALCHEMY_DATABASE_URI']
 
 class Base(DeclarativeBase):
