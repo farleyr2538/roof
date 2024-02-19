@@ -54,4 +54,6 @@ video {
     width: 100%;
     height: auto;
     z-index: 0;
+    object-fit: fill;
+    border-radius: 20px;
 }
