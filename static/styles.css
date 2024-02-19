@@ -52,8 +52,8 @@ label {
     border-radius: 10px;
 }
 
-#video {
+video {
     position: fixed;
-    width: 100%;
+    width: auto;
     height: auto;
 }
