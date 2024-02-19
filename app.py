@@ -9,7 +9,7 @@ from sqlalchemy.orm import DeclarativeBase, Mapped
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://cbxuyldqyifqcu:95de1fa4afcafdf7df6bfcd075109614bafd6dc7e2244bb754aeb7ce042e2540@ec2-44-215-40-87.compute-1.amazonaws.com:5432/dfk6dqpg7rk537'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://cbxuyldqyifqcu:95de1fa4afcafdf7df6bfcd075109614bafd6dc7e2244bb754aeb7ce042e2540@ec2-44-215-40-87.compute-1.amazonaws.com:5432/dfk6dqpg7rk537'
 link = app.config['SQLALCHEMY_DATABASE_URI']
 
 class Base(DeclarativeBase):
