@@ -57,9 +57,13 @@ video {
 }
 
 #content {
-    padding-top: 75px;
+    padding-top: 40px;
 }
 
 footer {
-    padding: 25px;
+    padding: 40px;
+}
+
+#hero {
+    padding-top: 20px;
 }
