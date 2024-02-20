@@ -7,14 +7,14 @@
 {% endblock %}
 
 {% block main %}
-    <div class="container overflow-hidden">
+    <div class="container">
         <div class="row">
             <div class="col">
-                <div class="translate-middle-y">
-                    <h1 class="align-middle" id="title">Welcome to Roof!</h1>
+                <div class="container z-1 position-absolute">
+                    <h1 id="title">Welcome to Roof!</h1>
                 </div>
-                <div class="embed-responsive-item embed-responsive-16by9">
-                    <video autoplay muted loop class="object-fit-fill">
+                <div class="ratio ratio-16x9">
+                    <video autoplay muted loop class="position-absolute object-fit-contain border rounded z-0">
                         <source src="static/background2.mp4" type="video/mp4">
                     </video>
                 </div>
