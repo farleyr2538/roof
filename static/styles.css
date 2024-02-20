@@ -8,7 +8,6 @@ button {
 
 #title {
     top: 50%;
-    padding-top: 150px;
     padding-left: 50px;
     padding-right: 50px;
     text-align: left;
@@ -60,9 +59,4 @@ video {
 
 footer {
     padding: 40px;
-}
-
-div {
-    outline: black dotted;
-    outline-width: 2px;
 }
