@@ -60,3 +60,8 @@ video {
 footer {
     padding: 40px;
 }
+
+div {
+    outline: black dotted;
+    outline-width: 1px;
+}
