@@ -1,0 +1,62 @@
+.navbar-brand {
+    font-weight: bold;
+}
+
+button {
+    margin-top: 6px;
+}
+
+#title {
+    top: 50%;
+    padding-left: 50px;
+    padding-right: 50px;
+    text-align: left;
+    z-index: 1;
+}
+
+#subtitle {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    text-align: left;
+}
+
+label {
+    margin-top: 10px;
+    margin-bottom: 4px;
+}
+
+.no_spacing {
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+#rating {
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+#submit {
+    justify-content: center;
+}
+
+#header {
+    text-align: center;
+}
+
+.form_background {
+    background: #FFD580;
+    border-radius: 20px;
+}
+
+video {
+    width: 100%;
+    border-radius: 20px;
+}
+
+#content {
+    padding-top: 40px;
+}
+
+footer {
+    padding: 40px;
+}

@@ -1,0 +1,110 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+
+    Home
+
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col d-flex align-items-center">
+                <div class="z-1 position-absolute">
+                    <h1 id="title">Welcome to Roof!</h1>
+                </div>
+                <div class="ratio ratio-16x9">
+                    <video autoplay muted loop class="position-absolute object-fit-cover border rounded z-0">
+                        <source src="static/background2.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container d-flex flex-column" id="content">
+        <div class="row justify-content-center">
+            <div class="col col-md-6 m-3">
+                <p>Our mission is to make things fairer for tenants.</p>
+                <p>Roof exists to make life fairer for anyone trying to rent in West London.<br></p>
+                <p>Tenants are younger, poorer, less experienced, and less powerful in the market than the landlords they are interacting with. Tenants are predominantly young people, either students or young professionals who are setting out in life. They are more financially precarious and are often finding their feet in the city.<br></p>
+                <p>
+                    They aren’t having a great time of it at the moment. Houses prices are 9x the average income. Student debt. Inflation. And the economy isn’t growing at the pace it used to. More people are renting for longer.<br>
+                </p>
+                <p>
+                    As actors in the property market, tenants have little to no power. They are treated by the market as disposable because they do not communicate with each other or act as a block. There are no mechanisms for identifying and labelling bad actors.
+                </p>
+                <p>
+                    You can only hear of a bad landlord by good fortune; through word of mouth or if you happen to have a particularly honest estate agent.
+                </p>
+                <p>
+                    In every other marketplace, bad actors are identified and marginalised through ratings of one kind or another. Think of Amazon reviews. Google reviews. Trustpilot. Glassdoor.
+                </p>
+                <p>
+                    These systems deter people who might be open to acting poorly from doing so. It keeps everyone honest. In the property market, there is no such mechanism. This situation incentivises landlords to abuse their position.
+                </p>
+                <p>
+                    That’s where we come in.
+                </p>
+            </div>
+            <div class="col col-md-4 m-3">
+                <div id="form_background" class="form_background p-3">
+                    <div>
+                        <h2 id="header">Rate your landlord</h2>
+                    </div>
+                    <div>
+                        <form action="/submit" method="POST" autocomplete="off">
+                            <label for="first_name">First name:</label><br>
+                            <input type="text" placeholder="Jerry" name="first_name" id="first_name" required><br>
+                            <label for="last_name">Last name:</label><br>
+                            <input type="text" placeholder="Seinfeld" name="last_name" id="last_name" required><br>
+                            <label for="address">First line of address:</label><br>
+                            <input type="text" placeholder="123 Crazy Corner" name="address" id="address" required><br>
+                            <label for="postcode">Postcode:</label><br>
+                            <input type="text" name="postcode" placeholder="AB1 2CD" id="postcode" required><br>
+                            <label for="email">Email:</label><br>
+                            <input type="text" id="email" name="email" placeholder="jerry.seinfeld@aol.com" required><br>
+                            <label for="rating">Landlord rating</label><br>
+                            <select class="form-select" name="rating" id="rating" required>
+                                <option disabled selected>Select...</option>
+                                {% for x in range(5) %}
+                                <option value="{{ x + 1 }}">{{ x + 1 }} star</option>
+                                {% endfor %}
+                            </select>
+                            <div class="form-check-label no-spacing">
+                                <label class="form-check-label">Which years were you a tenant for?</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="years[]" id="2019" value="2019">
+                                <label class="form-check-label no_spacing" for="2019">2019</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="years[]" id="2020" value="2020">
+                                <label class="form-check-label no_spacing" for="2020">2020</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="years[]" id="2021" value="2021">
+                                <label class="form-check-label no_spacing" for="2021">2021</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="years[]" id="2022" value="2022">
+                                <label class="form-check-label no_spacing" for="2022">2022</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="years[]" id="2023" value="2023">
+                                <label class="form-check-label no_spacing" for="2023">2023</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="years[]" id="2024" value="2024">
+                                <label class="form-check-label no_spacing" for="2024">2024</label>
+                            </div>
+                            <div class="container d-flex justify-content-center">
+                                <button class="btn btn-primary" id="submit" type="submit" style="text-align: center;">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
