@@ -16,6 +16,7 @@ db = SQLAlchemy(app)
 
 metadata_obj = MetaData()
 engine = create_engine(link)
+print("test")
 
 class Rating(db.Model):
     __tablename__ = 'ratings'
