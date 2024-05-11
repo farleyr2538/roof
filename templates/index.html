@@ -58,31 +58,29 @@
                                 <input class="form-control" type="text" placeholder="Jerry" name="first_name" id="first_name" required>
                             </div>
                             <div class="row">
-                                <label for="last_name">Last name:</label>
-                                <input type="text" placeholder="Seinfeld" name="last_name" id="last_name" required>
+                                <label class="form-label" for="last_name">Last name:</label>
+                                <input class="form-control" type="text" placeholder="Seinfeld" name="last_name" id="last_name" required>
                             </div>
                             <div class="row">
-                                <label for="address">First line of address:</label>
-                                <input type="text" placeholder="123 Crazy Corner" name="address" id="address" required>
+                                <label class="form-label" for="address">First line of address:</label>
+                                <input class="form-control" type="text" placeholder="123 Crazy Corner" name="address" id="address" required>
                             </div>
                             <div class="row">
-                                <label for="postcode">Postcode:</label>
-                                <input type="text" name="postcode" placeholder="AB1 2CD" id="postcode" required>
+                                <label class="form-label" for="postcode">Postcode:</label>
+                                <input class="form-control" type="text" name="postcode" placeholder="AB1 2CD" id="postcode" required>
                             </div>
                             <div class="row">
-                                <label for="email">Email:</label>
-                                <input type="text" id="email" name="email" placeholder="jerry.seinfeld@aol.com" required>
+                                <label class="form-label" for="email">Email:</label>
+                                <input class="form-control" type="text" id="email" name="email" placeholder="jerry.seinfeld@aol.com" required>
                             </div>
                             <div class="row border">
-                                <label for="rating">Landlord rating</label>
-                                <div class="col-6">
-                                    <select class="form-select" name="rating" id="rating" required>
-                                        <option disabled selected>Select...</option>
-                                        {% for x in range(5) %}
-                                        <option value="{{ x + 1 }}">{{ x + 1 }} star</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
+                                <label class="form-label" for="rating">Landlord rating</label>
+                                <select class="form-select" name="rating" id="rating" required>
+                                    <option disabled selected>Select...</option>
+                                    {% for x in range(5) %}
+                                    <option value="{{ x + 1 }}">{{ x + 1 }} star</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                             <div class="form-check-label no-spacing">
                                 <label class="form-check-label">Which years were you a tenant for?</label>
@@ -111,7 +109,7 @@
                                 <input class="form-check-input" type="checkbox" name="years[]" id="2024" value="2024">
                                 <label class="form-check-label no_spacing" for="2024">2024</label>
                             </div>
-                            <div>
+                            <div class="row">
                                 <button class="btn btn-primary" id="submit" type="submit" style="text-align: center;">Submit</button>
                             </div>
                         </form>
