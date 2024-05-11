@@ -60,3 +60,7 @@ video {
 footer {
     padding: 40px;
 }
+
+input {
+    border-radius: 10px;
+}
