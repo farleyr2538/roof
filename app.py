@@ -7,10 +7,10 @@ from sqlalchemy.orm import DeclarativeBase
 
 app = Flask(__name__)
 
-# addition = "ql"
-url = os.environ.get('DATABASE_URL')
-# index = 8
-# url = old_url[:index] + addition + old_url[index:]
+addition = "ql"
+old_url = os.environ.get('DATABASE_URL')
+index = 8
+url = old_url[:index] + addition + old_url[index:]
 app.config['SQLALCHEMY_DATABASE_URI'] = url
 link = app.config['SQLALCHEMY_DATABASE_URI']
 
