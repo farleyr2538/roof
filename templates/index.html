@@ -51,7 +51,7 @@
                     <div>
                         <h2 id="header">Rate your landlord</h2>
                     </div>
-                    <div class="col-auto">
+                    <div>
                         <form action="/submit" method="POST" autocomplete="off">
                             <label for="first_name">First name:</label><br>
                             <input type="text" placeholder="Jerry" name="first_name" id="first_name" required><br>
@@ -64,12 +64,17 @@
                             <label for="email">Email:</label><br>
                             <input type="text" id="email" name="email" placeholder="jerry.seinfeld@aol.com" required><br>
                             <label for="rating">Landlord rating</label><br>
-                            <select class="form-select" name="rating" id="rating" required>
-                                <option disabled selected>Select...</option>
-                                {% for x in range(5) %}
-                                <option value="{{ x + 1 }}">{{ x + 1 }} star</option>
-                                {% endfor %}
-                            </select>
+                            <div class="row">
+                                <div class="col-1">
+                                    <select class="form-select" name="rating" id="rating" required>
+                                        <option disabled selected>Select...</option>
+                                        {% for x in range(5) %}
+                                        <option value="{{ x + 1 }}">{{ x + 1 }} star</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            
                             <div class="form-check-label no-spacing">
                                 <label class="form-check-label">Which years were you a tenant for?</label>
                             </div>
