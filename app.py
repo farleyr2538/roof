@@ -4,7 +4,7 @@ from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData, create_engine, MetaData, or_
 from sqlalchemy.orm import DeclarativeBase
-import titlecase
+from titlecase import titlecase
 
 app = Flask(__name__)
 
