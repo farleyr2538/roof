@@ -41,8 +41,8 @@
         {% for x in ratings %}
             <tr>
                 <td>{{ x['fn'] }}</td>
-                <td>{{ x['address'] }}</td>
-                <td>{{ x['postcode'] }}</td>
+                <td>{{ x['address'].title() }}</td>
+                <td>{{ x['postcode'].title() }}</td>
                 <td>{{ x['rating'] }}</td>
                 <td>{{ x['years'] }}</td>
             </tr>
