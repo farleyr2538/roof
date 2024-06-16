@@ -67,3 +67,15 @@ footer {
     border-bottom: 70px solid #FFD580;
     border-left: 100px solid transparent;
 }
+
+#empty-star {
+    margin: 50px 0;
+    position: relative;
+    display: block;
+    color: transparent;
+    width: 10px;
+    height: 10px;
+    border-right: 100px solid #FFD580;
+    border-bottom: 70px solid #FFD580;
+    border-left: 100px solid #FFD580;
+}
