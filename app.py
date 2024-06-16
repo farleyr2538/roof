@@ -77,7 +77,7 @@ def form():
 @app.route("/find-rating", methods=["GET", "POST"])
 def find_rating():
     all_ratings = Rating.query.all()
-    return render_template('find_rating.html', ratings=all_ratings)
+    return render_template('find_rating.html', ratings=all_ratings, search=False)
 
 @app.route("/search", methods=["POST"])
 def search():
@@ -88,4 +88,4 @@ def search():
             Rating.postcode.ilike(f"%{term}%")
         )
     )
-    return render_template('find_rating.html', ratings=rv)
+    return render_template('find_rating.html', ratings=rv, search=True)
