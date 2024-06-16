@@ -43,7 +43,7 @@
         {% for x in ratings %}
             <tr>
                 <td>{{ x['fn'] }}</td>
-                <td>{{ x['address'].replace("'", "").replace("`", "").title() }}</td>
+                <td>{{ x['address'].replace("'", "").replace('\u2019', "").title() }}</td>
                 <td>{{ x['postcode'].upper() }}</td>
                 <td>{% for y in range(5) %}
                         {% if y < x['rating'] %}
