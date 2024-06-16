@@ -84,8 +84,8 @@ def search():
     term = request.form.get("search")
     rv = Rating.query.filter(
         or_ (
-            Rating.address.like(f"%{term}%"),
-            Rating.postcode.like(f"%{term}%")
+            Rating.address.lower().like(f"%{term.lower()}%"),
+            Rating.postcode.lower().like(f"%{term.lower()}%")
         )
     )
     return render_template('find_rating.html', ratings=rv)
