@@ -47,9 +47,9 @@
                 <td>{{ x['postcode'].upper() }}</td>
                 <td>{% for y in range(5) %}
                         {% if y < x['rating'] %}
-                        <span class="star"></span>
+                        <span class="material-icons-outlined">star</span>
                         {% else %}
-                        <span class="empty-star"></span>
+                        <span class="material-icons-outlined">star_rate</span>
                         {% endif %}
                     {% endfor %}
                 </td>
