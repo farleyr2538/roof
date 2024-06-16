@@ -79,3 +79,11 @@ footer {
     border-bottom: 70px solid #FFD580;
     border-left: 100px solid #FFD580;
 }
+
+#material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
