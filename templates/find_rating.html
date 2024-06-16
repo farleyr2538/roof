@@ -10,7 +10,7 @@
 
     <div class="container d-flex flex-column justify-content-center my-5">
         <div class="col-12 col-md-4 offset-md-4">
-            <div class="row justify-content-center">
+            <div class="row text-center">
                 <h3>Search for a rating</h3>
             </div>
             <div class="row">
@@ -41,7 +41,7 @@
         {% for x in ratings %}
             <tr>
                 <td>{{ x['fn'] }}</td>
-                <td>{{ x['address'].title() }}</td>
+                <td>{{ x['address'].title().strip() }}</td>
                 <td>{{ x['postcode'].upper() }}</td>
                 <td>{{ x['rating'] }}</td>
                 <td>{{ x['years'] }}</td>
