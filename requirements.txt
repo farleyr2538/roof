@@ -12,3 +12,4 @@ setuptools==69.1.0
 SQLAlchemy==2.0.25
 typing_extensions==4.9.0
 Werkzeug==3.0.1
+titlecase==2.4.1
