@@ -47,6 +47,7 @@
                 <td>{{ x['postcode'].upper() }}</td>
                 <td>{% for star in x['rating'] %}
                     <span class="star"></span>
+                    {% endfor %}
                 </td>
                 <td>{{ x['years'] }}</td>
             </tr>
