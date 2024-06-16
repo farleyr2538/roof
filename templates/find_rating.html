@@ -45,7 +45,9 @@
                 <td>{{ x['fn'] }}</td>
                 <td>{{ x['address'].title().strip() }}</td>
                 <td>{{ x['postcode'].upper() }}</td>
-                <td>{{ x['rating'] }}</td>
+                <td>{% for star in x['rating'] %}
+                    <span class="star"></span>
+                </td>
                 <td>{{ x['years'] }}</td>
             </tr>
         {% endfor %}

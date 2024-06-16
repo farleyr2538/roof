@@ -55,3 +55,15 @@ video {
 footer {
     padding: 40px;
 }
+
+#star {
+    margin: 50px 0;
+    position: relative;
+    display: block;
+    color: #FFD580;
+    width: 10px;
+    height: 10px;
+    border-right: 100px solid transparent;
+    border-bottom: 70px solid #FFD580;
+    border-left: 100px solid transparent;
+}
