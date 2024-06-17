@@ -99,5 +99,5 @@ def review():
     else:
         print("\nReview ID: " + id + "\n")
     review = Rating.query.filter_by(rating_id=id).first()
-    return render_template('review.html', review=review)
+    return render_template('review.html', review=review, id=id)
 
