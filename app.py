@@ -93,7 +93,7 @@ def search():
 
 @app.route("/review", methods=["POST"])
 def review():
-    id = request.query.get('id')
+    id = request.form.get('id')
     if not id:
         print("Error collecting review data")
     review = Rating.query.filter_by(rating_id=id)
