@@ -45,10 +45,7 @@
                 <td>{{ x['fn'] }}</td>
                 <td>
                     <form action="/review" method="POST">
-                        <div name="id">
-                            {{ x['rating_id'] }}
-                        </div>
-                        <button type="submit" name="address">
+                        <button type="submit" name="id" value="{{ x['rating_id'] }}">
                             {{ x['address'].replace("'", "").replace('\u2019', "").title() }}
                         </button>
                     </form>
