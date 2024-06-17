@@ -1,0 +1,19 @@
+extends {% extends 'layout.html' %}
+
+{% block title %}
+
+View review
+
+{% endblock %}
+
+{% block main %}
+
+    <div class="container d-flex">
+        <div class="col">
+            <div class="row">
+                <h1>{{ review.address + ", " + review.postcode }}</h1>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

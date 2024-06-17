@@ -90,3 +90,12 @@ def search():
         )
     )
     return render_template('find_rating.html', ratings=rv, search=True)
+
+@app.route("/review", methods=["POST"])
+def review():
+    id = request.query.get('id')
+    if not id:
+        print("Error collecting review data")
+    review = Rating.query.filter_by(rating_id=id)
+    return render_template('review.html', review=review)
+
