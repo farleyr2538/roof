@@ -96,6 +96,8 @@ def review():
     id = request.form.get('id')
     if not id:
         print("Error collecting review data")
+    else:
+        print("\nReview ID: " + id + "\n")
     review = Rating.query.filter_by(rating_id=id).first()
     return render_template('review.html', review=review)
 
