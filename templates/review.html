@@ -9,6 +9,9 @@ View review
 {% block main %}
 
     <div class="container">
+        <div class="row my-5">
+            <h1>Apologies, this is a page in progress</h1>
+        </div>
         <div class="row align-items-center my-3">
             <div class="col-auto">
                 <h1> {{ review.address }} </h1>
@@ -23,17 +26,6 @@ View review
                     <span class="material-icons-outlined" style="font-size: 40px;">star_rate</span>
                     {% endif %}
                 {% endfor %}
-            </div>
-        </div>
-        <div class="row my-4">
-            <div class="ratio ratio-21x9">
-                <iframe
-                    style="border:0"
-                    loading="lazy"
-                    allowfullscreen
-                    referrerpolicy="no-referrer-when-downgrade"
-                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB0P7_Gwoc0Gbs-OFej8k1b2SM6OL2emYg&q={{ maps_input }}">
-                </iframe>
             </div>
         </div>
         <div class="row my-4">
