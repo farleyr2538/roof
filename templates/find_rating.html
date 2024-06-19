@@ -44,10 +44,15 @@
             <tr>
                 <td>{{ x['fn'] }}</td>
                 <td>
-                    {{ x['address'].replace("'", "").replace("\u2019", "").title() }}
+                    <form action="/review" method="POST">
+                        <button type="submit" name="id" value="{{ x['rating_id'] }}">
+                            {{ x['address'].replace("'", "").replace('\u2019', "").title() }}
+                        </button>
+                    </form>
                 </td>
                 <td>{{ x['postcode'].upper() }}</td>
-                <td>{% for y in range(5) %}
+                <td>
+                    {% for y in range(5) %}
                         {% if y < x['rating'] %}
                         <span class="material-icons-outlined">star</span>
                         {% else %}

@@ -11,9 +11,13 @@ app = Flask(__name__)
 addition = "ql"
 old_url = os.environ.get('DATABASE_URL')
 index = 8
-url = old_url[:index] + addition + old_url[index:]
-app.config['SQLALCHEMY_DATABASE_URI'] = url
-link = app.config['SQLALCHEMY_DATABASE_URI']
+if old_url:
+    url = old_url[:index] + addition + old_url[index:]
+    app.config['SQLALCHEMY_DATABASE_URI'] = url
+    link = app.config['SQLALCHEMY_DATABASE_URI']
+else:
+    local = 'sqlite:///project.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = local
 
 class Base(DeclarativeBase):
     pass
@@ -21,7 +25,10 @@ class Base(DeclarativeBase):
 db = SQLAlchemy(app)
 
 metadata_obj = MetaData()
-engine = create_engine(link)
+if old_url:
+    engine = create_engine(link)
+else:
+    engine = create_engine(local)
 print("test")
 
 class Rating(db.Model):
@@ -94,10 +101,9 @@ def search():
 @app.route("/review", methods=["POST"])
 def review():
     id = request.form.get("id")
-    if not id:
-        print("Error collecting review data")
-    else:
-        print("\nReview ID: " + id + "\n")
     review = Rating.query.filter_by(rating_id=id).first()
-    return render_template('review.html', review=review, id=id)
+    address_input = review.address.replace(", ", ",").replace(" ", "+")
+    postcode_input = review.postcode.replace(", ", ",").replace(" ", "+")
+    maps_input = address_input + postcode_input
+    return render_template('review.html', review=review, id=id, maps_input=maps_input)
 

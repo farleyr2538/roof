@@ -8,21 +8,42 @@ View review
 
 {% block main %}
 
-    <div class="container d-flex">
-        <div class="col">
-            <div class="row">
+    <div class="container">
+        <div class="row align-items-center my-3">
+            <div class="col-auto">
                 <h1> {{ review.address }} </h1>
                 <h2> {{ review.postcode }} </h2>
             </div>
-            <div class="row">
+            <div class="col"></div>
+            <div class="col-auto">
+                {% for y in range(review.rating) %}
+                    {% if y < review.rating %}
+                    <span class="material-icons-outlined" style="font-size: 40px;">star</span>
+                    {% else %}
+                    <span class="material-icons-outlined" style="font-size: 40px;">star_rate</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="ratio ratio-21x9">
                 <iframe
-                    width="600"
-                    height="450"
                     style="border:0"
                     loading="lazy"
                     allowfullscreen
                     referrerpolicy="no-referrer-when-downgrade"
-                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB0P7_Gwoc0Gbs-OFej8k1b2SM6OL2emYg&q=Space+Needle,Seattle+WA">
+                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB0P7_Gwoc0Gbs-OFej8k1b2SM6OL2emYg&q={{ maps_input }}">
+                </iframe>
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="ratio ratio-21x9">
+                <iframe
+                    style="border:0"
+                    loading="lazy"
+                    allowfullscreen
+                    referrerpolicy="no-referrer-when-downgrade"
+                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB0P7_Gwoc0Gbs-OFej8k1b2SM6OL2emYg&q={{ maps_input }}">
                 </iframe>
             </div>
         </div>
