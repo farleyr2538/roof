@@ -102,8 +102,16 @@ def search():
 def review():
     id = request.form.get("id")
     review = Rating.query.filter_by(rating_id=id).first()
-    address_input = review.address.replace(", ", ",").replace(" ", "+")
-    postcode_input = review.postcode.replace(", ", ",").replace(" ", "+")
+    address_input = review.address.replace(", ", ",").replace(" ", "+") + ","
+    postcode_input = review.postcode.replace(" ", "+")
     maps_input = address_input + postcode_input
-    return render_template('review.html', review=review, id=id, maps_input=maps_input)
+    print(maps_input)
+    time = review.time
+    date = ""
+    for char in time:
+        if char != " ":
+            date = date + char
+        else:
+            break
+    return render_template('review.html', review=review, id=id, maps_input=maps_input, date=date)
 

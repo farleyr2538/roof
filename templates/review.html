@@ -9,13 +9,21 @@ View review
 {% block main %}
 
     <div class="container">
-        <div class="row my-5">
-            <h1>Apologies, this is a page in progress</h1>
+        <div class="row">
+            <div class="col-12">
+                <button class=" my-3 btn btn-link" onclick="goTo('/find-rating')">
+                    <span class="material-symbols-outlined" style="font-size: 40px;">
+                        arrow_back
+                    </span>
+                </button> 
+            </div>
         </div>
         <div class="row align-items-center my-3">
             <div class="col-auto">
                 <h1> {{ review.address }} </h1>
                 <h2> {{ review.postcode }} </h2>
+                <p class="no_spacing" style="color: silver">Submitted by: {{ review.fn }}</p>
+                <p class="no_spacing" style="color: silver">Date submitted: {{ date }}</p>
             </div>
             <div class="col"></div>
             <div class="col-auto">
@@ -28,26 +36,25 @@ View review
                 {% endfor %}
             </div>
         </div>
-        <div class="row my-4">
-            <div class="ratio ratio-21x9">
-                <iframe
-                    style="border:0"
-                    loading="lazy"
-                    allowfullscreen
-                    referrerpolicy="no-referrer-when-downgrade"
-                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB0P7_Gwoc0Gbs-OFej8k1b2SM6OL2emYg&q={{ maps_input }}">
-                </iframe>
-            </div>
-            <div class="ratio ratio-21x9">
-                <iframe
-                    style="border:0"
-                    loading="lazy"
-                    allowfullscreen
-                    referrerpolicy="no-referrer-when-downgrade"
-                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB0P7_Gwoc0Gbs-OFej8k1b2SM6OL2emYg&q={{ maps_input }}">
-                </iframe>
+        <div class="row justify-content-end my-5">
+            <div class="col-6">
+                <div class="ratio ratio-4x3">
+                    <iframe
+                        style="border:0"
+                        loading="lazy"
+                        allowfullscreen
+                        referrerpolicy="no-referrer-when-downgrade"
+                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB0P7_Gwoc0Gbs-OFej8k1b2SM6OL2emYg&q={{ maps_input }}">
+                    </iframe>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function goTo(address) {
+            window.location.href = address
+        }
+    </script>
 
 {% endblock %}
