@@ -20,7 +20,7 @@ View review
         </div>
         <div class="row align-items-center my-3">
             <div class="col-auto">
-                <h1> {{ review.address }} </h1>
+                <h1> {{ review.address.replace("'", "").replace('\u2019', "").title() }} </h1>
                 <h2> {{ review.postcode }} </h2>
                 <p class="no_spacing" style="margin-top: -2px; margin-bottom: -3px; color: silver;">Submitted by: {{ review.fn }}</p>
                 <p class="no_spacing" style="margin-top: -3px; margin-bottom: -2px; color: silver;">Date submitted: {{ date }}</p>
