@@ -22,8 +22,8 @@ View review
             <div class="col-auto">
                 <h1> {{ review.address }} </h1>
                 <h2> {{ review.postcode }} </h2>
-                <p class="no_spacing" style="color: silver">Submitted by: {{ review.fn }}</p>
-                <p class="no_spacing" style="color: silver">Date submitted: {{ date }}</p>
+                <p class="no_spacing" style="margin-top: -2px; margin-bottom: -3px; color: silver;">Submitted by: {{ review.fn }}</p>
+                <p class="no_spacing" style="margin-top: -3px; margin-bottom: -2px; color: silver;">Date submitted: {{ date }}</p>
             </div>
             <div class="col"></div>
             <div class="col-auto">
@@ -36,9 +36,9 @@ View review
                 {% endfor %}
             </div>
         </div>
-        <div class="row justify-content-end my-5">
-            <div class="col-6">
-                <div class="ratio ratio-4x3">
+        <div class="row justify-content-center my-5">
+            <div class="col-10">
+                <div class="ratio ratio-21x9">
                     <iframe
                         style="border:0"
                         loading="lazy"
