@@ -39,7 +39,7 @@
 }
 
 .form_background {
-    background: #FFD580;
+    background-color: antiquewhite;
     border-radius: 20px;
 }
 
@@ -54,4 +54,11 @@ video {
 
 footer {
     padding: 40px;
+}
+
+#landing {
+    padding-top: 300px;
+    padding-bottom: 300px;
+    background-color: antiquewhite;
+    margin-bottom: 25px;
 }

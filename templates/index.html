@@ -6,24 +6,67 @@
 
 {% endblock %}
 
+{% block script %}
+
+    <script>
+        // block the form submission from its default action, and instead post the info in the form to the /submit api route using fetch
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('form');
+            form.addEventListener('submit', function(event) {
+                // prevent submission of the form in the usual way
+                event.preventDefault();
+                // capture form data
+                const formData = new FormData(form);
+                console.log("formData: ");
+                const values = {};
+                formData.forEach((value, key) => {
+                    // if a corresponding key doesn't already exist in 'values', then create an empty one. 
+                    if (!values[key]) {
+                        values[key] = [];
+                    }
+                    // add value to corresponding key
+                    values[key].push(value);
+                    if (key != 'years') {
+                        values[key] = values[key][0];
+                        console.log(key + ":" + values[key] + " array: " + Array.isArray(values[key]));
+                    }
+                });
+                console.log("Before join: years: " + values['years'] + " array: " + Array.isArray(['years']));
+                const years = values['years'].join(", ");
+                console.log("After join: years: " + years + " array: " + Array.isArray(years));
+                values['years'] = years;
+                fetch('api/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify(values)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // 'data' should be json data either indicating a success (200) or an explanatory error and '500'
+                    // 'data' cannot be printed because it is an object
+                    window.location.href = '/submit';
+                })
+                .catch(error => console.error('Error: ', error));
+            })
+        })
+    </script>
+
+{% endblock %}
+
 {% block main %}
-    <div class="container">
+    <div class="container-fluid" id="landing">
         <div class="row">
-            <div class="col d-flex align-items-center">
-                <div class="z-1 position-absolute">
-                    <h1 id="title" >Welcome to Roof!</h1>
-                </div>
-                <div class="ratio ratio-21x9 mt-4">
-                    <video autoplay muted loop class="position-absolute object-fit-fill border rounded z-0">
-                        <source src="static/background2.mp4" type="video/mp4">
-                    </video>
-                </div>
+            <div class="col text-start">
+                <h1 id="title" >Welcome to Roof!</h1>
+                <h2 id="title">Glassdoor for landlords</h2>
             </div>
         </div>
     </div>
     <div class="container d-flex flex-column" id="content">
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-6 p-3">
                 <p>Our mission is to make things fairer for tenants.</p>
                 <p>Roof exists to make life fairer for anyone trying to rent in West London.<br></p>
                 <p>Tenants are younger, poorer, less experienced, and less powerful in the market than the landlords they are interacting with. Tenants are predominantly young people, either students or young professionals who are setting out in life. They are more financially precarious and are often finding their feet in the city.<br></p>
@@ -47,12 +90,12 @@
                 </p>
             </div>
             <div class="col-md-4 m-4">
-                <div id="form_background" class="form_background p-4">
+                <div class="p-5 form_background" id="form_background">
                     <div>
                         <h2 id="header">Rate your landlord</h2>
                     </div>
                     <div>
-                        <form action="/submit" method="POST" autocomplete="off">
+                        <form id="form" action="/submit" method="POST" autocomplete="on">
                             <div class="row">
                                 <label class="form-label label_spacing" for="first_name">First name:</label>
                                 <input class="form-control" type="text" placeholder="Jerry" name="first_name" id="first_name" required>
@@ -90,31 +133,32 @@
                             <div class="row mt-1">
                                 <div class="col">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="years[]" id="2019" value="2019">
+                                        <input class="form-check-input" type="checkbox" name="years" id="2019" value="2019">
                                         <label class="form-check-label" for="2019">2019</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="years[]" id="2020" value="2020">
+                                        <input class="form-check-input" type="checkbox" name="years" id="2020" value="2020">
                                         <label class="form-check-label" for="2020">2020</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="years[]" id="2021" value="2021">
+                                        <input class="form-check-input" type="checkbox" name="years" id="2021" value="2021">
                                         <label class="form-check-label" for="2021">2021</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="years[]" id="2022" value="2022">
+                                        <input class="form-check-input" type="checkbox" name="years" id="2022" value="2022">
                                         <label class="form-check-label" for="2022">2022</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="years[]" id="2023" value="2023">
+                                        <input class="form-check-input" type="checkbox" name="years" id="2023" value="2023">
                                         <label class="form-check-label" for="2023">2023</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="years[]" id="2024" value="2024">
+                                        <input class="form-check-input" type="checkbox" name="years" id="2024" value="2024">
                                         <label class="form-check-label" for="2024">2024</label>
                                     </div>
                                 </div>
                             </div>
+                            <div hidden><input class="form-check-input" name="time" id="time" value="{{ time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()) }}"></div>
                             <div class="row mt-4 mx-5">
                                 <button class="btn btn-primary" id="submit" type="submit" style="text-align: center;">Submit</button>
                             </div>

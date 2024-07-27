@@ -6,55 +6,97 @@ View review
 
 {% endblock %}
 
+{% block script %}
+
+    <script>
+
+        function goTo(address) {
+            window.location.href = address
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const body = document.getElementById('body');
+            const rating = document.getElementById('rating');
+            const rating_id = {{ id }};
+            console.log("JS ID: " + rating_id);
+
+            fetch(`/api/review/${rating_id}`)
+                .then(response => {
+                    if (!response.ok) {
+                        console.log("error at response stage")
+                        throw new Error("fetch response was not ok");
+                    } 
+                    return response.json()
+                })
+                .then(data => {
+                    console.log(data);
+                    if (data.error) {
+                        console.log("error at data stage")
+                        body.innerHTML = `<h1>${data.error}<\h1>`;
+                    } else {
+                        body.innerHTML = `
+                            <h1>${data.address}</h1>
+                            <h3>${data.postcode}</h3>
+                        `;
+                        const stars = data.rating;
+                        for (let y = 0; y < 5; y++) {
+                            const star = document.createElement('span');
+                            star.className = 'material-icons-outlined';
+                            star.style.fontSize = '40px';
+                            if (y < stars) {
+                                star.textContent = 'star';
+                                rating.appendChild(star);
+                            } else {
+                                star.textContent = 'star_rate';
+                                rating.appendChild(star);
+                            }
+                        }
+                        const map = document.getElementById('map');
+                        const maps_input = data.address.replace(/, /g, "+").replace(/ /g, "+") + "," + data.postcode.replace(/ /g, "");
+                        console.log("Maps input = " + maps_input);
+                        map.src = "https://www.google.com/maps/embed/v1/place?key=AIzaSyB0P7_Gwoc0Gbs-OFej8k1b2SM6OL2emYg&q=" + maps_input;
+                    }
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                    body.innerHTML = '<p>Error loading data.</p>';
+                })
+        })
+
+    </script>
+
+{% endblock %}
+
 {% block main %}
 
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <button class=" my-3 btn btn-link" onclick="goTo('/find-rating')">
-                    <span class="material-symbols-outlined" style="font-size: 40px;">
+                <button class=" my-3 btn btn-link" onclick="goTo('/find_rating')">
+                    <span class="material-symbols-outlined" style="font-size: 30px;">
                         arrow_back
                     </span>
                 </button> 
             </div>
         </div>
         <div class="row align-items-center my-3">
-            <div class="col-auto">
-                <h1> {{ review.address.replace("'", "").replace('\u2019', "").title() }} </h1>
-                <h2> {{ review.postcode }} </h2>
-                <p class="no_spacing" style="margin-top: -2px; margin-bottom: -3px; color: silver;">Submitted by: {{ review.fn }}</p>
-                <p class="no_spacing" style="margin-top: -3px; margin-bottom: -2px; color: silver;">Date submitted: {{ date }}</p>
-            </div>
-            <div class="col"></div>
-            <div class="col-auto">
-                {% for y in range(review.rating) %}
-                    {% if y < review.rating %}
-                    <span class="material-icons-outlined" style="font-size: 40px;">star</span>
-                    {% else %}
-                    <span class="material-icons-outlined" style="font-size: 40px;">star_rate</span>
-                    {% endif %}
-                {% endfor %}
-            </div>
+            <div class="col" id="body"></div>
+            <div class="col text-end" id="rating"></div>
         </div>
-        <div class="row justify-content-center my-5">
-            <div class="col-10">
+        <div class="row mb-4">
+            <div class="col">
                 <div class="ratio ratio-21x9">
                     <iframe
+                        id="map"
                         style="border:0"
                         loading="lazy"
                         allowfullscreen
                         referrerpolicy="no-referrer-when-downgrade"
-                        src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB0P7_Gwoc0Gbs-OFej8k1b2SM6OL2emYg&q={{ maps_input }}">
+                        src=""
                     </iframe>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        function goTo(address) {
-            window.location.href = address
-        }
-    </script>
 
 {% endblock %}

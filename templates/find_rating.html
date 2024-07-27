@@ -6,6 +6,102 @@
 
 {% endblock %}
 
+{% block script %}
+
+    <script>
+
+        // function for loading data to the table
+        function load(data) {
+            console.log(data);
+            
+            // identify table
+            const table = document.getElementById('table');
+            
+            // clear any existing data in the table
+            while (table.firstChild) {
+                table.removeChild(table.firstChild);
+            }
+
+            // load data in variable 'data' into html rows and columns
+            data.forEach(review => {
+                const row = document.createElement('tr');
+
+                const name = document.createElement('td');
+                name.textContent = review.fn;
+                row.appendChild(name);
+
+                const address = document.createElement('td');
+                address.textContent = review.address;
+                
+                const postcode = document.createElement('td');
+                postcode.textContent = review.postcode;
+
+                const id = review.rating_id;
+
+                address.addEventListener('click', function() {
+                    window.location.href = `/view_review/${id}`
+                })
+                address.style.cursor = 'pointer';
+
+                row.appendChild(address)
+                row.appendChild(postcode)
+
+                const rating = document.createElement('td')
+                rating.textContent =  review.rating
+                row.appendChild(rating)
+
+                const years = document.createElement('td')
+                years.textContent = review.years
+                row.appendChild(years)
+
+                table.appendChild(row)
+            })
+        }
+        
+        // once the page is loaded, add all the reviews to the table
+
+        document.addEventListener('DOMContentLoaded', function(){
+
+            // get all reviews
+
+            fetch('api/get_all')
+            .then(response => response.json())
+            .then(data => {
+                load(data)
+            })
+            .catch(error => {
+                    console.error('Error fetching reviews:', error)
+            })
+
+            // add an event listener to the button, getting the reviews which match the filter
+
+            document.getElementById('search_button').addEventListener('click', function() {
+                const filter = document.getElementById('search').value;
+                
+                // post filter to 'find_rating' api
+                fetch('api/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({filter: filter})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    load(data);
+                })
+                .catch(error => {
+                    console.error('Error getting search results:', error);
+                });
+            });
+        });
+
+
+    </script>
+
+{% endblock %}
+
 {% block main %}
 
     <div class="container d-flex flex-column justify-content-center my-5">
@@ -14,20 +110,16 @@
                 <h3>Search for a rating</h3>
             </div>
             <div class="row">
-                <form action="/search", method=POST>
-                    <input class="form-control" type="text" name="search" placeholder="search for an address" autocomplete="off">
-                    <button class="btn btn-primary form-control mt-1" type="submit">Go</button>
-                </form>
+                <input class="form-control" type="text" name="search" id="search" placeholder="search for an address" autocomplete="off">
+                <button class="btn btn-primary form-control mt-1" name="search_button" id="search_button" type="submit">Go</button>
             </div>
-            {% if search %}
             <div class="row">
-                <a href="/find-rating">
-                    <button class="btn form-control" type="button">
+                <a href="/find_rating">
+                    <button class="btn form-control" type="button" id="show_all">
                         Show all ratings
                     </button>
                 </a>
             </div>
-            {% endif %}
         </div>
     </div>
 
@@ -42,31 +134,7 @@
                     <th scope="col">Years spent at the property</th>
                 </tr>
             </thead>
-            <tbody>
-            {% for x in ratings %}
-                <tr>
-                    <td>{{ x['fn'] }}</td>
-                    <td>
-                        <form action="/review" method="POST">
-                            <button class="btn btn-link" type="submit" name="id" value="{{ x['rating_id'] }}" style="--bs-btn-padding-x: 0rem;">
-                                {{ x['address'].replace("'", "").replace('\u2019', "").title() }}
-                            </button>
-                        </form>
-                    </td>
-                    <td>{{ x['postcode'].upper() }}</td>
-                    <td>
-                        {% for y in range(5) %}
-                            {% if y < x['rating'] %}
-                            <span class="material-icons-outlined">star</span>
-                            {% else %}
-                            <span class="material-icons-outlined">star_rate</span>
-                            {% endif %}
-                        {% endfor %}
-                    </td>
-                    <td>{{ x['years'] }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
+            <tbody id="table"></tbody>
         </table>
     </div>
 
