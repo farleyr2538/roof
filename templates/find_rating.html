@@ -14,47 +14,57 @@
         function load(data) {
             console.log(data);
             
-            // identify table
-            const table = document.getElementById('table');
-            
-            // clear any existing data in the table
-            while (table.firstChild) {
-                table.removeChild(table.firstChild);
-            }
+            // identify target div
+            const target = document.getElementById('target')
 
-            // load data in variable 'data' into html rows and columns
+            // load data into target div
             data.forEach(review => {
-                const row = document.createElement('tr');
+                // load data
 
-                const name = document.createElement('td');
-                name.textContent = review.fn;
-                row.appendChild(name);
-
-                const address = document.createElement('td');
-                address.textContent = review.address;
+                // create row and col
+                const reviewRow = document.createElement('div')
+                reviewRow.classList.add("row", "mb-2")
+                const contentCol = document.createElement('div')
+                contentCol.classList.add("col-8", "flex-grow-1")
                 
-                const postcode = document.createElement('td');
-                postcode.textContent = review.postcode;
+                // insert data
+                /*
+                const title = document.createElement('p')
+                title.textContent = review.address
+                const postcode = document.createElement('p')
+                postcode.textContent = review.postcode
+                */
 
-                const id = review.rating_id;
+                //contentCol.innerHTML = "<b>" + review.address + "</b>" + "<br>" + review.postcode
 
-                address.addEventListener('click', function() {
-                    window.location.href = `/view_review/${id}`
-                })
-                address.style.cursor = 'pointer';
+                /**/
+                contentCol.innerHTML = `
+                    <a href="/view_review/${review.rating_id}">
+                        <p class="no-para-spacing text-decoration-none">
+                            ${review.address}
+                        </p>
+                    </a>
+                    <p class="no-para-spacing">${review.postcode}</p>
+                `
+                
+                    
+                // create stars col
+                const starsCol = document.createElement('div')
+                starsCol.classList.add('col', 'd-flex', 'flex-nowrap', 'justify-content-end')
+                const rating = review.rating
 
-                row.appendChild(address)
-                row.appendChild(postcode)
+                for (let x = 0; x < rating; x++) {
+                    const star = document.createElement('div')
+                    star.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z"/></svg>
+                        `
+                    starsCol.appendChild(star)
+                }
 
-                const rating = document.createElement('td')
-                rating.textContent =  review.rating
-                row.appendChild(rating)
-
-                const years = document.createElement('td')
-                years.textContent = review.years
-                row.appendChild(years)
-
-                table.appendChild(row)
+                // add cols to reviewRow and add row to target div
+                reviewRow.appendChild(contentCol)
+                reviewRow.appendChild(starsCol)
+                target.appendChild(reviewRow)
             })
         }
         
@@ -63,7 +73,6 @@
         document.addEventListener('DOMContentLoaded', function(){
 
             // get all reviews
-
             fetch('api/get_all')
             .then(response => response.json())
             .then(data => {
@@ -74,7 +83,6 @@
             })
 
             // add an event listener to the button, getting the reviews which match the filter
-
             document.getElementById('search_button').addEventListener('click', function() {
                 const filter = document.getElementById('search').value;
                 
@@ -104,16 +112,20 @@
 
 {% block main %}
 
-    <div class="container d-flex flex-column justify-content-center my-5">
-        <div class="col-12 col-md-4 offset-md-4">
-            <div class="row text-center">
-                <h3>Search for a rating</h3>
+    <div class="container my-5">
+        <div class="row mb-2 text-center">
+            <div class="col">
+                <h2>Search for a rating</h2>
             </div>
-            <div class="row">
+        </div>
+        <div class="row">
+            <div class="col">
                 <input class="form-control" type="text" name="search" id="search" placeholder="search for an address" autocomplete="off">
                 <button class="btn btn-primary form-control mt-1" name="search_button" id="search_button" type="submit">Go</button>
             </div>
-            <div class="row">
+        </div>
+        <div class="row">
+            <div class="col">
                 <a href="/find_rating">
                     <button class="btn form-control" type="button" id="show_all">
                         Show all ratings
@@ -123,19 +135,8 @@
         </div>
     </div>
 
-    <div class="table-responsive">
-        <table class="table table-striped align-middle">
-            <thead>
-                <tr>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Address</th>
-                    <th scope="col">Postcode</th>
-                    <th scope="col">Landlord Rating</th>
-                    <th scope="col">Years spent at the property</th>
-                </tr>
-            </thead>
-            <tbody id="table"></tbody>
-        </table>
+    <div class="container" id="target">
+        
     </div>
 
 {% endblock %}

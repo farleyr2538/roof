@@ -13,28 +13,34 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %
 @api.route('/submit', methods=['POST'])
 def create():
     if request.is_json:
-        # handle as json
+        # theoretically, requests from Swift
+        # handle as JSON
         data = request.get_json()
+        logging.debug("Handled as JSON")
+        from_app = True
     else:
+        # theoretically, requests from web
         # handle as form data
         data = request.form.to_dict()
+        logging.debug("Handled as dictionary")
+        from_app = False
     
     for key, value in data.items():
         logging.debug(f"{key}: {value}")
 
-    # JSON data values are being sent as lists of length 1 because it is being sent incorrectly. Maybe I need to stringify 'years' before sending? 
-    # the presence of this list could be causing all values to be lists?
-
-    address = data.get('address')
-    postcode = data.get('postcode')
-    rating = int(data.get('rating')[0])
     fn = data.get('first_name')
     ln = data.get('last_name')
+    address = data.get('address')
+    postcode = data.get('postcode')
+    if not from_app:
+        rating = int(data.get('rating')[0])
+    else:
+        rating = int(data.get('rating'))
     years = data.get('years')
     current_time = data.get('time')
 
     # assign it all to a Rating instance
-    r = Rating(fn=fn, ln=ln, address=address, postcode=postcode, rating=rating, years=years, time=current_time)
+    r = Rating(first_name=fn, last_name=ln, address=address, postcode=postcode, rating=rating, years=years, time=current_time)
 
     try:
         db.session.add(r)
@@ -50,6 +56,8 @@ def create():
             }), 200
     except Exception as e:
         db.session.rollback()
+        print(f"Error: {e}")
+        logging.debug(f"Error: {e}")
         return jsonify({"error": "Failed to insert rating"}), 500
 
 
@@ -62,7 +70,7 @@ def read():
         'rating_id': review.rating_id,
         'address': review.address.replace("'", "").title(),
         'postcode': review.postcode.upper(),
-        'rating': review.rating,
+        'rating': str(review.rating),
         'years': review.years,
         'fn': review.fn,
         'ln': review.ln,
@@ -98,9 +106,9 @@ def search():
     
 
 # given an id via post, return the data for that review
-@api.route('/review/<int:id>', methods=['GET', 'POST'])
-def get(id):
-    review = Rating.query.filter(Rating.rating_id == id).first()
+@api.route('/review/<uuid:rating_id>', methods=['GET', 'POST'])
+def get(rating_id):
+    review = Rating.query.filter(Rating.rating_id == rating_id).first()
     value = rating_schema.dump(review)
     if value:
         return jsonify(value)

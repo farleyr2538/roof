@@ -15,47 +15,32 @@ View review
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            const body = document.getElementById('body');
+            const addressCol = document.getElementById('addressCol');
             const rating = document.getElementById('rating');
-            const rating_id = {{ id }};
-            console.log("JS ID: " + rating_id);
 
-            fetch(`/api/review/${rating_id}`)
-                .then(response => {
-                    if (!response.ok) {
-                        console.log("error at response stage")
-                        throw new Error("fetch response was not ok");
-                    } 
-                    return response.json()
-                })
+            fetch(`/api/review/{{rating_id}}`)
+                .then(response => response.json())
                 .then(data => {
                     console.log(data);
-                    if (data.error) {
-                        console.log("error at data stage")
-                        body.innerHTML = `<h1>${data.error}<\h1>`;
-                    } else {
-                        body.innerHTML = `
-                            <h1>${data.address}</h1>
-                            <h3>${data.postcode}</h3>
-                        `;
-                        const stars = data.rating;
-                        for (let y = 0; y < 5; y++) {
-                            const star = document.createElement('span');
-                            star.className = 'material-icons-outlined';
-                            star.style.fontSize = '40px';
-                            if (y < stars) {
-                                star.textContent = 'star';
-                                rating.appendChild(star);
-                            } else {
-                                star.textContent = 'star_rate';
-                                rating.appendChild(star);
-                            }
-                        }
-                        const map = document.getElementById('map');
-                        const maps_input = data.address.replace(/, /g, "+").replace(/ /g, "+") + "," + data.postcode.replace(/ /g, "");
-                        console.log("Maps input = " + maps_input);
-                        map.src = "https://www.google.com/maps/embed/v1/place?key=AIzaSyB0P7_Gwoc0Gbs-OFej8k1b2SM6OL2emYg&q=" + maps_input;
+                    //addressCol.innerHTML = "<b>" + data.address + "</b>" + "<br>" + data.postcode
+                    addressCol.innerHTML = "<h5>" + data.address + "</h5>" + "<p>" + data.postcode + "</p>"
+                    const stars = data.rating;
+                    for (let y = 0; y < 5; y++) {
+                        if (y < stars) {
+                            const star = document.createElement('div')
+                            star.innerHTML = `
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path d="M12 .288l2.833 8.718h9.167l-7.417 5.389 2.833 8.718-7.416-5.388-7.417 5.388 2.833-8.718-7.416-5.389h9.167z"/></svg>
+                                `
+                            starsCol.appendChild(star)
+                        } /*else {
+                            star.textContent = 'star_rate';
+                            rating.appendChild(star);
+                        }*/
                     }
+                    const map = document.getElementById('map');
+                    const maps_input = data.address.replace(/, /g, "+").replace(/ /g, "+") + "," + data.postcode.replace(/ /g, "");
+                    console.log("Maps input = " + maps_input);
+                    map.src = "https://www.google.com/maps/embed/v1/place?key=AIzaSyB0P7_Gwoc0Gbs-OFej8k1b2SM6OL2emYg&q=" + maps_input;
                 })
                 .catch(error => {
                     console.error('There was a problem with the fetch operation:', error);
@@ -72,20 +57,20 @@ View review
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <button class=" my-3 btn btn-link" onclick="goTo('/find_rating')">
-                    <span class="material-symbols-outlined" style="font-size: 30px;">
+                <button class=" btn btn-link" onclick="goTo('/find_rating')">
+                    <span class="material-symbols-outlined">
                         arrow_back
                     </span>
                 </button> 
             </div>
         </div>
-        <div class="row align-items-center my-3">
-            <div class="col" id="body"></div>
-            <div class="col text-end" id="rating"></div>
+        <div class="row my-3">
+            <div class="col-7 flex-grow-1" id="addressCol"></div>
+            <div class="col d-flex flex-nowrap justify-content-end" id="starsCol"></div>
         </div>
         <div class="row mb-4">
             <div class="col">
-                <div class="ratio ratio-21x9">
+                <div class="ratio ratio-4x3">
                     <iframe
                         id="map"
                         style="border:0"

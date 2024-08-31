@@ -30,9 +30,9 @@ def form():
 
 
 # view an individual review
-@views.route("/view_review/<int:id>", methods=['GET', 'POST'])
-def review(id):
-    return render_template('review.html', id=id)
+@views.route("/view_review/<uuid:rating_id>", methods=['GET', 'POST'])
+def review(rating_id):
+    return render_template('review.html', rating_id=rating_id)
 
 
 # show a thank-you screen

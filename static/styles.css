@@ -6,12 +6,18 @@
     margin-top: 10px;
 }
 
+/*
 #title {
     top: 50%;
     padding-left: 50px;
     padding-right: 50px;
     text-align: left;
     z-index: 1;
+}
+*/
+
+.antique-white {
+    background-color: antiquewhite;
 }
 
 #subtitle {
@@ -57,8 +63,23 @@ footer {
 }
 
 #landing {
-    padding-top: 300px;
-    padding-bottom: 300px;
+    
+    padding-top: 25%;
+    padding-bottom: 25%;
+    
     background-color: antiquewhite;
-    margin-bottom: 25px;
+}
+    
+/* blueprint lines
+div {
+    
+    outline: 1px;
+    outline-color: blue;
+    outline-style: dotted;
+}
+*/
+
+.no-para-spacing {
+    margin-top: 1%;
+    margin-bottom: 1%;
 }
