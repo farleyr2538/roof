@@ -17,13 +17,16 @@
             // identify target div
             const target = document.getElementById('target')
 
+            // clear any existing data
+            target.innerHTML = ""
+
             // load data into target div
             data.forEach(review => {
                 // load data
 
                 // create row and col
                 const reviewRow = document.createElement('div')
-                reviewRow.classList.add("row", "mb-2")
+                reviewRow.classList.add("row", "mb-3")
                 const contentCol = document.createElement('div')
                 contentCol.classList.add("col-8", "flex-grow-1")
                 
@@ -39,10 +42,10 @@
 
                 /**/
                 contentCol.innerHTML = `
-                    <a href="/view_review/${review.rating_id}">
-                        <p class="no-para-spacing text-decoration-none">
+                    <a href="/view_review/${review.rating_id}" class="link-dark text-decoration-none">
+                        <p class="no-para-spacing"><b>
                             ${review.address}
-                        </p>
+                        </b></p>
                     </a>
                     <p class="no-para-spacing">${review.postcode}</p>
                 `

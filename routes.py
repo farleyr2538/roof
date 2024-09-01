@@ -40,7 +40,7 @@ def create():
     current_time = data.get('time')
 
     # assign it all to a Rating instance
-    r = Rating(first_name=fn, last_name=ln, address=address, postcode=postcode, rating=rating, years=years, time=current_time)
+    r = Rating(fn=fn, ln=ln, address=address, postcode=postcode, rating=rating, years=years, time=current_time)
 
     try:
         db.session.add(r)
