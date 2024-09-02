@@ -26,21 +26,11 @@
 
                 // create row and col
                 const reviewRow = document.createElement('div')
-                reviewRow.classList.add("row", "mb-3")
+                reviewRow.classList.add("row", "mb-3", "justify-content-center")
                 const contentCol = document.createElement('div')
-                contentCol.classList.add("col-8", "flex-grow-1")
+                contentCol.classList.add('col', 'col-md-3')
                 
                 // insert data
-                /*
-                const title = document.createElement('p')
-                title.textContent = review.address
-                const postcode = document.createElement('p')
-                postcode.textContent = review.postcode
-                */
-
-                //contentCol.innerHTML = "<b>" + review.address + "</b>" + "<br>" + review.postcode
-
-                /**/
                 contentCol.innerHTML = `
                     <a href="/view_review/${review.rating_id}" class="link-dark text-decoration-none">
                         <p class="no-para-spacing"><b>
@@ -53,7 +43,7 @@
                     
                 // create stars col
                 const starsCol = document.createElement('div')
-                starsCol.classList.add('col', 'd-flex', 'flex-nowrap', 'justify-content-end')
+                starsCol.classList.add('col-3', 'col-md-3', 'd-flex', 'flex-nowrap', 'justify-content-end')
                 const rating = review.rating
 
                 for (let x = 0; x < rating; x++) {
