@@ -99,7 +99,7 @@ def search():
         return_value = ratings_schema.dump(result)
         print("Before: ", return_value)
         for value in return_value:
-            value['address'] = value['address'].title()
+            value['address'] = value['address'].replace("'", "").title()
             value['postcode'] = value['postcode'].upper()
         print("After: ", return_value)
         return jsonify(return_value)
