@@ -30,7 +30,7 @@
                         console.log(key + ":" + values[key] + " array: " + Array.isArray(values[key]));
                     }
                 });
-                console.log("Before join: years: " + values['years'] + " array: " + Array.isArray(['years']));
+                console.log("Before join: years: " + values['years'] + " array: " + Array.isArray(values['years']));
                 const years = values['years'].join(", ");
                 console.log("After join: years: " + years + " array: " + Array.isArray(years));
                 values['years'] = years;
@@ -177,7 +177,7 @@
                             </div>
                             <div hidden><input class="form-check-input" name="time" id="time" value="{{ time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()) }}"></div>
                             <div class="row mt-4 mx-5">
-                                <button class="btn btn-primary" id="submit" type="submit" style="text-align: center;">Submit</button>
+                                <button class="btn btn-dark" id="submit" type="submit" style="text-align: center;">Submit</button>
                             </div>
                         </form>
                     </div>

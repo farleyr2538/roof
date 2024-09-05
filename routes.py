@@ -110,6 +110,8 @@ def search():
 def get(rating_id):
     review = Rating.query.filter(Rating.rating_id == rating_id).first()
     value = rating_schema.dump(review)
+    value['postcode'] = value['postcode'].upper()
+    value['address'] = value['address'].replace("'", "").title()
     if value:
         return jsonify(value)
     else:

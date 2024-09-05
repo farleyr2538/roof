@@ -8,50 +8,50 @@
 
 {% block script %}
 
-    <script>
-        // block the form submission from its default action, and instead post the info in the form to the /submit api route using fetch
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('form');
-            form.addEventListener('submit', function(event) {
-                // prevent submission of the form in the usual way
-                event.preventDefault();
-                // capture form data
-                const formData = new FormData(form);
-                console.log("formData: ");
-                const values = {};
-                formData.forEach((value, key) => {
-                    // if a corresponding key doesn't already exist in 'values', then create an empty one. 
-                    if (!values[key]) {
-                        values[key] = [];
-                    }
-                    // add value to corresponding key
-                    values[key].push(value);
-                    if (key != 'years') {
-                        values[key] = values[key][0];
-                        console.log(key + ":" + values[key] + " array: " + Array.isArray(values[key]));
-                    }
-                });
-                console.log("Before join: years: " + values['years'] + " array: " + Array.isArray(['years']));
-                const years = values['years'].join(", ");
-                console.log("After join: years: " + years + " array: " + Array.isArray(years));
-                values['years'] = years;
-                fetch('api/submit', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type':'application/json'
-                    },
-                    body: JSON.stringify(values)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // 'data' should be json data either indicating a success (200) or an explanatory error and '500'
-                    // 'data' cannot be printed because it is an object
-                    window.location.href = '/submit';
-                })
-                .catch(error => console.error('Error: ', error));
+<script>
+    // block the form submission from its default action, and instead post the info in the form to the /submit api route using fetch
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('form');
+        form.addEventListener('submit', function(event) {
+            // prevent submission of the form in the usual way
+            event.preventDefault();
+            // capture form data
+            const formData = new FormData(form);
+            const values = {};
+            formData.forEach((value, key) => {
+                // if a corresponding key doesn't already exist in 'values', then create an empty one. 
+                if (!values[key]) {
+                    values[key] = [];
+                }
+                // add value to corresponding key
+                values[key].push(value);
+                if (key != 'years') {
+                    values[key] = values[key][0];
+                    console.log(key + ":" + values[key] + " array: " + Array.isArray(values[key]));
+                }
+            });
+            console.log("Before join: years: " + values['years'] + " array: " + Array.isArray(values['years']));
+            const years = values['years'].join(", ");
+            console.log("After join: years: " + years + " array: " + Array.isArray(years));
+            values['years'] = years;
+            // JSONify the dict and send it to the API
+            fetch('api/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(values)
             })
+            .then(response => response.json())
+            .then(data => {
+                // 'data' should be json data either indicating a success (200) or an explanatory error and '500'
+                // 'data' cannot be printed because it is an object
+                window.location.href = '/submit';
+            })
+            .catch(error => console.error('Error: ', error));
         })
-    </script>
+    })
+</script>
 
 {% endblock %}
 
@@ -130,7 +130,7 @@
                             </div>
                             <div hidden><input class="form-check-input" name="time" id="time" value="{{ time.strftime('%Y-%m-%d %H:%M:%S', time.localtime()) }}"></div>
                             <div class="row mt-4 mx-5">
-                                <button class="btn btn-primary" id="submit" type="submit" style="text-align: center;">Submit</button>
+                                <button class="btn btn-dark" id="submit" type="submit" style="text-align: center;">Submit</button>
                             </div>
                         </form>
                     </div>
