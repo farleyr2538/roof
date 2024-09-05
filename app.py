@@ -3,14 +3,21 @@ from models import db
 from schemas import ma
 from routes import api
 from views import views
+import os
 
 app = Flask(__name__)
 
-old_url = "postgres://mwwlxvlluvoquu:1b2b550fde58c40f13f4b5e21e645d665a028038fc5f49f2420d0c426c49fc78@ec2-52-22-202-133.compute-1.amazonaws.com:5432/datr46pdevhh42"
-addition = "ql"
-index = 8
-url = old_url[:index] + addition + old_url[index:]
-app.config['SQLALCHEMY_DATABASE_URI'] = url
+old_url = os.environ.get('DATABASE_URL')
+if old_url:
+    if old_url.startswith("postgres://"):
+        new_url = old_url.replace("postgres://", "postgresql://", 1)
+    else:
+        new_url = old_url
+else:
+    print("environment url is None")
+    new_url = None
+
+app.config['SQLALCHEMY_DATABASE_URI'] = new_url
 
 db.init_app(app)
 ma.init_app(app)
