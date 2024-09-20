@@ -68,7 +68,7 @@ def read():
     reviews = Rating.query.all()
     return jsonify([{
         'rating_id': review.rating_id,
-        'address': review.address.replace("'", "").title(),
+        'address': review.address.replace("’", "").replace("'", "").title(),
         'postcode': review.postcode.upper(),
         'rating': review.rating,
         'years': review.years,

@@ -76,7 +76,7 @@
             })
 
             // add an event listener to the button, getting the reviews which match the filter
-            document.getElementById('search_button').addEventListener('click', function() {
+            document.getElementById('search').addEventListener('keydown', function() {
                 const filter = document.getElementById('search').value;
                 
                 // post filter to 'find_rating' api
@@ -96,6 +96,17 @@
                     console.error('Error getting search results:', error);
                 });
             });
+
+            document.getElementById('show_all').addEventListener('click', function() {
+                fetch('api/get_all')
+                .then(response => response.json())
+                .then(data =>
+                    load(data)
+                )
+                .catch(error =>
+                    log.console("Error: " + error)
+                )
+            })
         });
 
 
@@ -106,24 +117,24 @@
 {% block main %}
 
     <div class="container my-5">
-        <div class="row mb-2 text-center">
+        <div class="row text-center">
             <div class="col">
                 <h2>Search for a rating</h2>
             </div>
         </div>
-        <div class="row justify-content-center">
-            <div class="col col-sm-6">
-                <input class="form-control" type="text" name="search" id="search" placeholder="search for an address" autocomplete="off">
-                <button class="btn btn-primary form-control mt-1" name="search_button" id="search_button" type="submit">Go</button>
+        <div class="my-2">
+            <div class="row justify-content-center">
+                <div class="col col-sm-6">
+                    <input class="form-control" type="text" name="search" id="search" placeholder="search for an address" autocomplete="off">
+                    <!-- <button class="btn btn-primary form-control mt-1" name="search_button" id="search_button" type="submit">Go</button> -->
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <a href="/find_rating">
+            <div class="row">
+                <div class="col">
                     <button class="btn form-control" type="button" id="show_all">
                         Show all ratings
                     </button>
-                </a>
+                </div>
             </div>
         </div>
     </div>
