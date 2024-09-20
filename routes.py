@@ -70,7 +70,7 @@ def read():
         'rating_id': review.rating_id,
         'address': review.address.replace("'", "").title(),
         'postcode': review.postcode.upper(),
-        'rating': str(review.rating),
+        'rating': review.rating,
         'years': review.years,
         'fn': review.fn,
         'ln': review.ln,
