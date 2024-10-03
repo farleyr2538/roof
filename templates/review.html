@@ -22,7 +22,8 @@ View review
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
-                    data.address = 
+                    console.log(data.address)
+                    console.log(data.postcode)
                     addressCol.innerHTML = "<h5>" + data.address + "</h5>" + "<p>" + data.postcode + "</p>"
                     const stars = data.rating;
                     for (let y = 0; y < 5; y++) {
