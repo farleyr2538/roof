@@ -50,9 +50,11 @@ video {
     border-radius: 20px;
 }
 
-#content {
+/*#content {
+    
     padding-top: 40px;
-}
+    
+}*/
 
 footer {
     padding: 40px;
@@ -60,22 +62,25 @@ footer {
 
 #landing {
     
-    padding-top: 20%;
-    padding-bottom: 20%;
+    /* */
+    padding-top: 15%;
+    padding-bottom: 15%;
+    
     
     background-color: antiquewhite;
 }
     
-/* blueprint lines 
+/* blueprint lines
 div {
     
     outline: 1px;
     outline-color: blue;
     outline-style: dotted;
 }
-*/
+ */
 
 .no-para-spacing {
     margin-top: 0%;
     margin-bottom: 0%;
 }
+    
