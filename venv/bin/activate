@@ -1,6 +1,8 @@
 # This file must be used with "source bin/activate" *from bash*
 # You cannot run it directly
 
+export DATABASE_URL=postgres://vvgsoxgrasefoe:c605945d711e9741eeff134286e2afa857c8be7316e50c724263b08e5c338438@ec2-52-22-202-133.compute-1.amazonaws.com:5432/datr46pdevhh42
+
 deactivate () {
     # reset old environment variables
     if [ -n "${_OLD_VIRTUAL_PATH:-}" ] ; then
