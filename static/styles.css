@@ -1,3 +1,17 @@
+/* blueprint lines 
+div {
+    
+    outline: 1px;
+    outline-color: blue;
+    outline-style: dotted;
+}
+*/
+
+#action-button {
+    background-color: white;
+    border-radius: 20px;
+}
+
 .navbar-brand {
     font-weight: bold;
 }
@@ -5,16 +19,6 @@
 .label_spacing {
     margin-top: 10px;
 }
-
-/*
-#title {
-    top: 50%;
-    padding-left: 50px;
-    padding-right: 50px;
-    text-align: left;
-    z-index: 1;
-}
-*/
 
 .antique-white {
     background-color: antiquewhite;
@@ -50,34 +54,18 @@ video {
     border-radius: 20px;
 }
 
-/*#content {
-    
-    padding-top: 40px;
-    
-}*/
-
 footer {
     padding: 40px;
 }
 
 #landing {
     
-    /* */
-    padding-top: 15%;
-    padding-bottom: 15%;
-    
+    /* */ 
+    padding-top: 10%;
+    padding-bottom: 10%;
     
     background-color: antiquewhite;
 }
-    
-/* blueprint lines
-div {
-    
-    outline: 1px;
-    outline-color: blue;
-    outline-style: dotted;
-}
- */
 
 .no-para-spacing {
     margin-top: 0%;
