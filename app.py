@@ -3,9 +3,14 @@ from models import db
 from schemas import ma
 from routes import api
 from views import views
+from dotenv import load_dotenv
+from pathlib import Path
+import sys
 import os
 
 app = Flask(__name__)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 
 old_url = os.environ.get('DATABASE_URL')
 if old_url:
@@ -13,6 +18,7 @@ if old_url:
         new_url = old_url.replace("postgres://", "postgresql://", 1)
     else:
         new_url = old_url
+    # print(f"url: {new_url}")
 else:
     print("environment url is None")
     new_url = None

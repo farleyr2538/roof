@@ -55,19 +55,27 @@
 
 {% block main %}
     <div class="container-fluid text-start mt-2" id="landing">
-        <div class="row">
-            <div class="col px-4">
+        <div class="row align-items-center">
+            <div class="col-md-8 px-4">
                 <h1 class="display-1">Welcome to Roof</h1>
                 <h1 class="display-5">Glassdoor for landlords</h1>
+            </div>
+            <div class="col-md-4 d-flex justify-content-center">
+                <div id="action-button" class="d-flex justify-content-center align-items-center px-3 py-2 mt-4">
+                    <a href="#form" style="text-decoration: none; color: black">Rate my landlord</a>
+                </div>
+                <!--
+                    <a class="btn btn-light" href="#form">Rate my landlord</a>
+                -->
             </div>
         </div>
     </div>
     <div class="container-fluid" id="content">
-        <div class="row justify-content-center align-items-center bg-body-tertiary py-5 mb-3">
-            <div class="col-md-6 py-3 px-5">
+        <div class="row justify-content-center align-items-center bg-body-tertiary py-5">
+            <div class="col-md-6 px-5 my-1">
                 <h1>What is Roof?</h1>
             </div>
-            <div class="col-md-6 py-3 px-5 justify-content-center">
+            <div class="col-md-6 px-5 my-1 justify-content-center">
                 <div class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active" data-bs-interval="2500">
@@ -83,8 +91,8 @@
                 </div>
             </div>
         </div>
-        <div class="row justify-content-center py-3">
-            <div class="col-md-4">
+        <div class="row justify-content-center py-4 px-2">
+            <div class="col-md-5">
                 <div name="text-div">
                     <p>Our mission is to make things fairer for tenants.</p>
                     <p>Roof exists to make life fairer for anyone trying to rent.<br></p>
@@ -110,13 +118,13 @@
                 </div>
             </div>
         </div>
-        <div class="row justify-content-center my-5">
-            <div class="col col-md-6">
+        <div id="form" class="row justify-content-center py-3">
+            <div class="col col-md-5">
                 <div class="p-4 form_background">
                     <div class="mb-4">
                         <h2 id="header">Rate your landlord</h2>
                     </div>
-                    <form id="form" action="/submit" method="POST" autocomplete="on" class="">
+                    <form id="form" action="/submit" method="POST" autocomplete="on">
                         <div class="mb-3">
                             <label class="form-label" for="first_name">First name:</label>
                             <input class="form-control" type="text" placeholder="Jerry" name="first_name" id="first_name" required>
