@@ -15,3 +15,4 @@ Werkzeug==3.0.1
 titlecase==2.4.1
 flask_marshmallow==1.2.1
 marshmallow_sqlalchemy==1.0.0
+python-dotenv==1.0.1
