@@ -1,8 +1,12 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template
 from sqlalchemy import or_
-from models import db, Rating, User
-from schemas import rating_schema, ratings_schema, user_schema, users_schema
+from models import db, Rating, User, ReviewRequest, BlogPost
+from schemas import rating_schema, ratings_schema, user_schema, users_schema, blog_post_schema
 import logging
+from datetime import datetime, timezone
+from flask_mail import Mail, Message
+import os
+from mail import mail
 
 api = Blueprint('api', __name__)
 
@@ -12,56 +16,88 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %
 # create
 @api.route('/submit', methods=['POST'])
 def create():
-    if request.is_json:
-        # theoretically, requests from Swift
-        # handle as JSON
-        data = request.get_json()
-        logging.debug("Handled as JSON")
-        from_app = True
+
+    data = request.get_json()
+
+    # check if user exists
+    # if so, get user_id
+    # if not, add user
+
+    fn = data.get('fn')
+    ln = data.get('ln')
+    email = data.get('email')
+
+    query = User.query.filter(User.email == email).first()
+
+    if query:
+        # user exists, so return user_id
+        user_id = query.user_id
+        print(f"User {fn + " " + ln} already exists")
     else:
-        # theoretically, requests from web
-        # handle as form data
-        data = request.form.to_dict()
-        logging.debug("Handled as dictionary")
-        from_app = False
+        # user doesn't exist, so create user, and find its user_id
+        user = User(
+            fn=fn,
+            ln=ln,
+            email=email
+        )
+        db.session.add(user)
+        db.session.commit()
+        print(f"User added: {fn + " " + ln}")
+        user_id = User.query.filter(User.email == email).first().user_id
+
+    print(f"User ID: {user_id}")
     
     for key, value in data.items():
-        logging.debug(f"{key}: {value}")
+        print(f"{key}: {value}")
 
-    fn = data.get('first_name')
-    ln = data.get('last_name')
+    # get the rest of the data
     address = data.get('address')
     postcode = data.get('postcode')
-    if not from_app:
-        rating = int(data.get('rating')[0])
-    else:
-        rating = int(data.get('rating'))
+    landlord_rating = int(data.get('landlordRating'))
+    property_rating = int(data.get('propertyRating'))
+    issues = data.get('issues')
     years = data.get('years')
-    current_time = data.get('time')
+    current_time = data.get('timestamp')
 
     # assign it all to a Rating instance
-    r = Rating(fn=fn, ln=ln, address=address, postcode=postcode, rating=rating, years=years, time=current_time)
+    r = Rating(
+        user_id=user_id, 
+        fn=fn, 
+        ln=ln, 
+        address=address, 
+        postcode=postcode, 
+        landlord_rating=landlord_rating, 
+        property_rating=property_rating, 
+        issues=issues, 
+        years=years, 
+        time=current_time
+    )
+
+    print("about to attempt adding rating to session")
 
     try:
         db.session.add(r)
+        print("rating added to session")
+        print("about to attempt commit")
         db.session.commit()
-        return jsonify({
-            "fn":fn,
-            "ln":ln,
-            "address":address,
-            "postcode":postcode,
-            "rating":rating,
-            "years":years,
-            "time":current_time
-            }), 200
+        print("commit successful")
+        return {
+            "fn" : fn,
+            "ln" : ln,
+            "user_id" : user_id,
+            "address" : address,
+            "postcode" : postcode,
+            "landlord_rating" : landlord_rating,
+            "property_rating" : property_rating,
+            "issues" : issues,
+            "years" : years,
+            "current_time" : current_time
+        }, 200
     except Exception as e:
         db.session.rollback()
-        print(f"Error: {e}")
-        logging.debug(f"Error: {e}")
+        print(f"error: {e}")
         return jsonify({"error": "Failed to insert rating"}), 500
 
-
-# if method is 'GET', return all reviews
 
 @api.route('/get_all', methods=['GET'])
 def read():
@@ -70,7 +106,7 @@ def read():
         'rating_id': review.rating_id,
         'address': review.address.replace("’", "").replace("'", "").title(),
         'postcode': review.postcode.upper(),
-        'rating': review.rating,
+        'landlord_rating': review.landlord_rating,
         'years': review.years,
         'fn': review.fn,
         'ln': review.ln,
@@ -110,9 +146,89 @@ def search():
 def get(rating_id):
     review = Rating.query.filter(Rating.rating_id == rating_id).first()
     value = rating_schema.dump(review)
-    value['postcode'] = value['postcode'].upper()
-    value['address'] = value['address'].replace("'", "").title()
     if value:
+        value['postcode'] = value['postcode'].upper()
+        value['address'] = value['address'].replace("'", "").title()
         return jsonify(value)
     else:
         return jsonify({'error': 'no value found'}), 404
+    
+
+@api.route('/request-review', methods=['POST'])
+def request_review():
+    # Add these at the start of your route
+    from flask import current_app
+    print("Mail Settings:")
+    print(f"MAIL_SERVER: {current_app.config['MAIL_SERVER']}")
+    print(f"MAIL_PORT: {current_app.config['MAIL_PORT']}")
+    print(f"MAIL_USERNAME: {current_app.config['MAIL_USERNAME']}")
+    print(f"MAIL_USE_TLS: {current_app.config['MAIL_USE_TLS']}")
+    print(f"MAIL_USE_SSL: {current_app.config['MAIL_USE_SSL']}")
+    
+    # get address1, address2, and postcode from json data posted.
+    addressData = request.get_json()
+
+    print(addressData)
+
+    address1 = addressData.get('address1')
+    address2 = addressData.get('address2')
+    postcode = addressData.get('postcode')
+    name = addressData.get('name')
+    
+    print(f"data received: {address1}, {address2}, {postcode}, {name}")
+    
+    if not address1 or not address2 or not postcode or not name:
+        return jsonify({"error": "Address and postcode are required"}), 400
+        
+    # Combine address lines if address2 exists
+    full_address = address1
+    if address2:
+        full_address = f"{address1}, {address2}"
+        
+    # Create new review request
+    new_request = ReviewRequest(
+        address=full_address,
+        postcode=postcode,
+        status='pending',
+        request_date=datetime.now(timezone.utc),
+        name=name
+    )
+    
+    msg = Message(
+        "New Review Request",
+        sender=os.getenv('MAIL_USERNAME'),
+        recipients=["farleyr2538@icloud.com"],
+        body=f"address: {full_address}\npostcode: {postcode}\nname: {name}"
+    )
+
+    try:
+        mail.send(msg)
+        db.session.add(new_request)
+        db.session.commit()
+        return jsonify({"message": "Review request submitted successfully"}), 201
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error: {str(e)}")
+        return jsonify({"error": f"Failed to submit request: {str(e)}"}), 500
+    
+
+@api.route('/get_blog_posts')
+def get_blog_posts():
+    posts = BlogPost.query.all()
+    return jsonify([{
+        'post_id': post.post_id,
+        'title': post.title,
+        'content': post.content,
+        'slug': post.slug,
+        'created_at': post.created,
+        'updated_at': post.updated
+    } for post in posts])
+
+@api.route('/view_post/<string:slug>', methods=['GET', 'POST'])
+def view_post(slug):
+    result = BlogPost.query.filter_by(slug=slug).first()
+    result_data = blog_post_schema.dump(result)
+    if result_data:
+        return jsonify(result_data)
+    else:
+        return jsonify({'error':'post not found'}), 404

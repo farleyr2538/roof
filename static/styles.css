@@ -71,4 +71,39 @@ footer {
     margin-top: 0%;
     margin-bottom: 0%;
 }
+
+.star-rating {
+    font-size: 24px;
+    color: #000;
+    cursor: pointer;
+    display: inline-flex;
+}
+
+.star-rating i {
+    margin-right: -3px;
+    padding: 0 3px;
+}
+
+.star-rating:hover i {
+    color: #ffd700;
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
+
+.star-rating i:hover ~ i {
+    color: #000;
+    font-weight: 400;
+}
+
+.star-rating i:hover {
+    color: #ffd700;
+    font-weight: 900;
+}
+
+.form-label {
+    font-weight: bold;
+}
     
+.carousel-item {
+    min-height: 60px;
+}

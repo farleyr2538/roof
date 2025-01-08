@@ -39,3 +39,18 @@ def review(rating_id):
 @views.route('/submit', methods=['GET', 'POST'])
 def submit():
     return render_template('submit.html')
+
+# about page
+@views.route("/about", methods=['GET'])
+def about():
+    return render_template('about.html')
+
+
+@views.route("/blog")
+def blog():
+    return render_template('blog_home.html')
+
+
+@views.route("/read_blog/<string:slug>", methods=['GET', 'POST'])
+def view_blog_post(slug):
+    return render_template('blog_post.html', slug=slug)

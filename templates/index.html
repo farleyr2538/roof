@@ -16,38 +16,85 @@
                 // prevent submission of the form in the usual way
                 event.preventDefault();
                 // capture form data
-                const formData = new FormData(form);
-                const values = {};
-                formData.forEach((value, key) => {
-                    // if a corresponding key doesn't already exist in 'values', then create an empty one. 
-                    if (!values[key]) {
-                        values[key] = [];
-                    }
-                    // add value to corresponding key
-                    values[key].push(value);
-                    if (key != 'years') {
-                        values[key] = values[key][0];
-                        console.log(key + ":" + values[key] + " array: " + Array.isArray(values[key]));
-                    }
-                });
-                console.log("Before join: years: " + values['years'] + " array: " + Array.isArray(values['years']));
-                const years = values['years'].join(", ");
-                console.log("After join: years: " + years + " array: " + Array.isArray(years));
-                values['years'] = years;
-                // JSONify the dict and send it to the API
+                const formValues = {
+                    // User details
+                    email: document.getElementById('email').value,
+                    fn: document.getElementById('first_name').value, 
+                    ln: document.getElementById('last_name').value,
+                    address: document.getElementById('address').value,
+                    postcode: document.getElementById('postcode').value,
+
+                    // Ratings
+                    landlordRating: document.getElementById('rating').value,
+                    propertyRating: document.getElementById('property_rating').value,
+
+                    // Issues
+                    issues: [
+                        document.getElementById('hidden_problems').checked ? 'hidden_problems' : '',
+                        document.getElementById('not_clean').checked ? 'not_clean' : '',
+                        document.getElementById('damp').checked ? 'damp_mould' : '',
+                        document.getElementById('noise').checked ? 'noise' : '',
+                        document.getElementById('insulation').checked ? 'poor_insulation' : '',
+                        document.getElementById('deposit').checked ? 'deposit_not_returned' : '',
+                        document.getElementById('unresponsive').checked ? 'not_responsive' : ''
+                    ].filter(Boolean),
+
+                    // Years
+                    years: Array.from(document.querySelectorAll('input[name="years"]:checked'))
+                        .map(checkbox => checkbox.value),
+
+                    // Timestamp
+                    timestamp: document.getElementById('time').value
+                };
+
                 fetch('api/submit', {
                     method: 'POST',
                     headers: {
                         'Content-Type':'application/json'
                     },
-                    body: JSON.stringify(values)
+                    body: JSON.stringify(formValues)
                 })
                 .then(response => response.json())
                 .then(data => {
-                    window.location.href = '/submit';
+                    console.log(data);
+                    //window.location.href = '/submit';
                 })
                 .catch(error => console.error('Error: ', error));
             })
+
+            // Star rating functionality
+            function setupStarRating(containerId, inputId) {
+                const starContainer = document.querySelector(containerId);
+                const stars = starContainer.querySelectorAll('i');
+                const ratingInput = document.getElementById(inputId);
+
+                function updateStars(rating) {
+                    stars.forEach(star => {
+                        const starRating = parseInt(star.getAttribute('data-rating'));
+                        if (starRating <= rating) {
+                            star.classList.remove('fa-regular');
+                            star.classList.add('fa-solid');
+                            star.style.color = '#ffd700';
+                        } else {
+                            star.classList.remove('fa-solid');
+                            star.classList.add('fa-regular');
+                            star.style.color = '#000';
+                        }
+                    });
+                    ratingInput.value = rating;
+                }
+
+                stars.forEach(star => {
+                    star.addEventListener('click', function() {
+                        const rating = parseInt(this.getAttribute('data-rating'));
+                        updateStars(rating);
+                    });
+                });
+            }
+
+            // Initialize both rating widgets
+            setupStarRating('.star-rating:not(#property-stars)', 'rating');
+            setupStarRating('#property-stars', 'property_rating');
         })
     </script>
 
@@ -64,9 +111,6 @@
                 <div id="action-button" class="d-flex justify-content-center align-items-center px-3 py-2 mt-4">
                     <a href="#form" style="text-decoration: none; color: black">Rate my landlord</a>
                 </div>
-                <!--
-                    <a class="btn btn-light" href="#form">Rate my landlord</a>
-                -->
             </div>
         </div>
     </div>
@@ -75,8 +119,8 @@
             <div class="col-md-6 px-5 my-1">
                 <h1>What is Roof?</h1>
             </div>
-            <div class="col-md-6 px-5 my-1 justify-content-center">
-                <div class="carousel slide" data-bs-ride="carousel">
+            <div class="col-md-6 my-1 justify-content-center">
+                <div class="carousel slide mx-5" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active" data-bs-interval="2500">
                             <h5>An accountability mechanism for landlords</h5>
@@ -93,29 +137,9 @@
         </div>
         <div class="row justify-content-center py-4 px-2">
             <div class="col-md-5">
-                <div name="text-div">
-                    <p>Our mission is to make things fairer for tenants.</p>
-                    <p>Roof exists to make life fairer for anyone trying to rent.<br></p>
-                    <p>Tenants are younger, poorer, less experienced, and less powerful in the market than the landlords they are interacting with. Tenants are predominantly young people, either students or young professionals who are setting out in life. They are more financially precarious and are often finding their feet in the city.<br></p>
-                    <p>
-                        They aren’t having a great time of it at the moment. Houses prices are 9x the average income. Student debt. Inflation. And the economy isn’t growing at the pace it used to. More people are renting for longer.<br>
-                    </p>
-                    <p>
-                        As actors in the property market, tenants have little to no power. They are treated by the market as disposable because they do not communicate with each other or act as a block. There are no mechanisms for identifying and labelling bad actors.
-                    </p>
-                    <p>
-                        You can only hear of a bad landlord by good fortune; through speaking to the previous tenants or if you happen to have a particularly honest estate agent.
-                    </p>
-                    <p>
-                        In every other marketplace, bad actors are identified and marginalised through ratings of one kind or another. Think of Amazon reviews. Google reviews. Trustpilot. Glassdoor.
-                    </p>
-                    <p>
-                        These systems deter people who might be open to acting poorly from doing so. It keeps everyone honest. In the property market, there is no such mechanism. This situation incentivises landlords to abuse their position.
-                    </p>
-                    <p>
-                        That’s where we come in.
-                    </p>
-                </div>
+                <p>Our mission is to make things fairer for tenants.</p>
+                <p>To achieve this, tenants need to share information to keep landlords accountable.</p>
+                <p>Rate your landlord below to contribute to our vision.</p>
             </div>
         </div>
         <div id="form" class="row justify-content-center py-3">
@@ -131,11 +155,11 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="last_name">Last name:</label>
-                            <input class="form-control" type="text" placeholder="Seinfeld" name="last_name" id="last_name" required>
+                            <input class="form-control" type="text" placeholder="Smith" name="last_name" id="last_name" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="address">First line of address:</label>
-                            <input class="form-control" type="text" placeholder="123 Crazy Corner" name="address" id="address" required>
+                            <input class="form-control" type="text" placeholder="123 Main Street" name="address" id="address" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="postcode">Postcode:</label>
@@ -143,23 +167,77 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="email">Email:</label>
-                            <input class="form-control" type="text" id="email" name="email" placeholder="jerry.seinfeld@aol.com" required>
+                            <input class="form-control" type="text" id="email" name="email" placeholder="jerry.smith@aol.com" required>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="rating">Landlord rating</label>
-                            <select class="form-select" name="rating" id="rating" required>
-                                <option disabled selected>Select...</option>
-                                {% for x in range(5) %}
-                                <option value="{{ x + 1 }}">{{ x + 1 }} star</option>
-                                {% endfor %}
-                            </select>
+                        <div class="mt-4 mb-3">
+                            <label class="form-label" for="rating">Landlord rating:</label>
+                            <div class="mt-1">
+                                <div class="star-rating">
+                                    <i class="fa-regular fa-star" data-rating="1"></i>
+                                    <i class="fa-regular fa-star" data-rating="2"></i>
+                                    <i class="fa-regular fa-star" data-rating="3"></i>
+                                    <i class="fa-regular fa-star" data-rating="4"></i>
+                                    <i class="fa-regular fa-star" data-rating="5"></i>
+                                </div>
+                            </div>
+                            <input type="hidden" name="rating" id="rating" required>
+                        </div>
+                        <div class="mt-4 mb-3">
+                            <label class="form-label" for="property_rating">Property rating:</label>
+                            <div class="mt-1">
+                                <div class="star-rating" id="property-stars">
+                                    <i class="fa-regular fa-star" data-rating="1"></i>
+                                    <i class="fa-regular fa-star" data-rating="2"></i>
+                                    <i class="fa-regular fa-star" data-rating="3"></i>
+                                    <i class="fa-regular fa-star" data-rating="4"></i>
+                                    <i class="fa-regular fa-star" data-rating="5"></i>
+                                </div>
+                            </div>
+                            <input type="hidden" name="property_rating" id="property_rating" required>
                         </div>
                         <div class="mb-3">
                             <div class="form-check-label">
-                                <label class="form-check-label">Which years were you a tenant for?</label>
+                                <label class="form-label form-check-label">Did you experience any of the following?</label>
                             </div>
                         </div>
-                        <div class="mb-3 mt-1">
+                        <div class="row mb-4">
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="issues" id="hidden_problems" value="hidden_problems">
+                                    <label class="form-check-label" for="hidden_problems">Property problems hidden during viewings</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="issues" id="not_clean" value="not_clean">
+                                    <label class="form-check-label" for="not_clean">Flat not clean on move-in</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="issues" id="damp" value="damp">
+                                    <label class="form-check-label" for="damp">Damp/mould</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="issues" id="noise" value="noise">
+                                    <label class="form-check-label" for="noise">Noise</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="issues" id="insulation" value="insulation">
+                                    <label class="form-check-label" for="insulation">Poor insulation</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="issues" id="deposit" value="deposit">
+                                    <label class="form-check-label" for="deposit">Landlord did not return deposit</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="issues" id="unresponsive" value="unresponsive">
+                                    <label class="form-check-label" for="unresponsive">Landlord was not responsive/make repairs</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check-label">
+                                <label class="form-label form-check-label">Which years were you a tenant for?</label>
+                            </div>
+                        </div>
+                        <div class="row mb-4 mt-1">
                             <div class="col">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="years" id="2019" value="2019">
@@ -173,6 +251,8 @@
                                     <input class="form-check-input" type="checkbox" name="years" id="2021" value="2021">
                                     <label class="form-check-label" for="2021">2021</label>
                                 </div>
+                            </div>
+                            <div class="col">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="years" id="2022" value="2022">
                                     <label class="form-check-label" for="2022">2022</label>

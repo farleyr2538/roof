@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+
+Blog
+
+{% endblock %}
+
+{% block script %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const titleTarget = document.getElementById('titleTarget');
+            const contentTarget = document.getElementById('contentTarget');
+
+            fetch('/api/view_post/{{slug}}')
+            .then(response => response.json())
+            .then(data => {
+                titleTarget.innerText = data.title;
+                const paragraphs = data.content;
+                console.log(typeof(paragraphs));
+                paragraphs.forEach((paragraph) => {
+                    const para = document.createElement('p');
+                    para.innerText = paragraph;
+                    contentTarget.appendChild(para);
+                });
+            })
+            .catch(error => {
+                console.error(error)
+            })
+        })
+    </script>
+
+{% endblock %}
+
+{% block main %}
+
+    <div class="container justify-content-center">
+        <div class="row my-5">
+            <div class="col">
+                <h1 class="display-5" id="titleTarget"></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div id="contentTarget" class="col-sm-6"></div>
+        </div>
+    </div>
+
+{% endblock %}

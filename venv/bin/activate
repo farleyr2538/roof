@@ -1,8 +1,6 @@
 # This file must be used with "source bin/activate" *from bash*
 # You cannot run it directly
 
-export DATABASE_URL=postgres://vvgsoxgrasefoe:c605945d711e9741eeff134286e2afa857c8be7316e50c724263b08e5c338438@ec2-52-22-202-133.compute-1.amazonaws.com:5432/datr46pdevhh42
-
 deactivate () {
     # reset old environment variables
     if [ -n "${_OLD_VIRTUAL_PATH:-}" ] ; then
@@ -41,10 +39,10 @@ deactivate nondestructive
 if [ "$OSTYPE" = "cygwin" ] || [ "$OSTYPE" = "msys" ] ; then
     # transform D:\path\to\venv to /d/path/to/venv on MSYS
     # and to /cygdrive/d/path/to/venv on Cygwin
-    export VIRTUAL_ENV=$(cygpath "/Users/rob/Library/Mobile Documents/com~apple~CloudDocs/Coding/roof/venv")
+    export VIRTUAL_ENV=$(cygpath "/Users/rob/code/roof/venv")
 else
     # use the path as-is
-    export VIRTUAL_ENV="/Users/rob/Library/Mobile Documents/com~apple~CloudDocs/Coding/roof/venv"
+    export VIRTUAL_ENV="/Users/rob/code/roof/venv"
 fi
 
 _OLD_VIRTUAL_PATH="$PATH"

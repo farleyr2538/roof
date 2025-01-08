@@ -1,0 +1,66 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+
+Blog
+
+{% endblock %}
+
+{% block script %}
+
+    <script>
+
+        function slugify(title) {
+            const newTitle = ""
+            for (let char of title) {
+                let newChar = char.toLowerCase();
+
+                if (char == " ") {
+                    // replace with hyphen
+                    newChar = "-";
+                }
+                newTitle += newChar;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const target = document.getElementById('blog_post_list')
+
+            // fetch blog posts
+            fetch('api/get_blog_posts')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(post => {
+                    const row = document.createElement('div');
+                    row.classList.add('row');
+                    const col = document.createElement('div');
+                    col.classList.add('col');
+                    col.innerHTML = `
+                        <a href="/read_blog/${post.slug}" class="link-dark text-decoration-none">
+                            <h3>${post.title}</h3>
+                        </a>
+                    `;
+                    row.appendChild(col);
+                    target.appendChild(row);
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            })
+        })
+    </script>
+
+
+{% endblock %}
+
+{% block main %}
+
+    <div class="container" id="blog_post_list"">
+        <div class="row">
+            <div class="col my-5">
+                <h1>Blog</h1>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

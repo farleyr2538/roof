@@ -18,7 +18,7 @@ View review
             const addressCol = document.getElementById('addressCol');
             const rating = document.getElementById('rating');
 
-            fetch(`/api/review/{{rating_id}}`)
+            fetch(`/api/review/{{rating_id}}`) // rating_id being inserted via jinja and used to retrieve specific rating data
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);

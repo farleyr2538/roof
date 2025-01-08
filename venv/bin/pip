@@ -1,6 +1,4 @@
-#!/bin/sh
-'''exec' "/Users/rob/Library/Mobile Documents/com~apple~CloudDocs/Coding/roof/venv/bin/python3.12" "$0" "$@"
-' '''
+#!/Users/rob/code/roof/venv/bin/python3.12
 # -*- coding: utf-8 -*-
 import re
 import sys
