@@ -71,11 +71,11 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="last_name">Last name:</label>
-                            <input class="form-control" type="text" placeholder="Seinfeld" name="last_name" id="last_name" required>
+                            <input class="form-control" type="text" placeholder="Smith" name="last_name" id="last_name" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="address">First line of address:</label>
-                            <input class="form-control" type="text" placeholder="123 Crazy Corner" name="address" id="address" required>
+                            <input class="form-control" type="text" placeholder="123 Main Street" name="address" id="address" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="postcode">Postcode:</label>
@@ -83,23 +83,77 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="email">Email:</label>
-                            <input class="form-control" type="text" id="email" name="email" placeholder="jerry.seinfeld@aol.com" required>
+                            <input class="form-control" type="text" id="email" name="email" placeholder="jerry.smith@aol.com" required>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="rating">Landlord rating</label>
-                            <select class="form-select" name="rating" id="rating" required>
-                                <option disabled selected>Select...</option>
-                                {% for x in range(5) %}
-                                <option value="{{ x + 1 }}">{{ x + 1 }} star</option>
-                                {% endfor %}
-                            </select>
+                        <div class="mt-4 mb-3">
+                            <label class="form-label" for="rating">Landlord rating:</label>
+                            <div class="mt-1">
+                                <div class="star-rating">
+                                    <i class="fa-regular fa-star" data-rating="1"></i>
+                                    <i class="fa-regular fa-star" data-rating="2"></i>
+                                    <i class="fa-regular fa-star" data-rating="3"></i>
+                                    <i class="fa-regular fa-star" data-rating="4"></i>
+                                    <i class="fa-regular fa-star" data-rating="5"></i>
+                                </div>
+                            </div>
+                            <input type="hidden" name="rating" id="rating" required>
+                        </div>
+                        <div class="mt-4 mb-3">
+                            <label class="form-label" for="property_rating">Property rating:</label>
+                            <div class="mt-1">
+                                <div class="star-rating" id="property-stars">
+                                    <i class="fa-regular fa-star" data-rating="1"></i>
+                                    <i class="fa-regular fa-star" data-rating="2"></i>
+                                    <i class="fa-regular fa-star" data-rating="3"></i>
+                                    <i class="fa-regular fa-star" data-rating="4"></i>
+                                    <i class="fa-regular fa-star" data-rating="5"></i>
+                                </div>
+                            </div>
+                            <input type="hidden" name="property_rating" id="property_rating" required>
                         </div>
                         <div class="mb-3">
                             <div class="form-check-label">
-                                <label class="form-check-label">Which years were you a tenant for?</label>
+                                <label class="form-label form-check-label">Did you experience any of the following?</label>
                             </div>
                         </div>
-                        <div class="mb-3 mt-1">
+                        <div class="row mb-4">
+                            <div class="col">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="issues" id="hidden_problems" value="hidden_problems">
+                                    <label class="form-check-label" for="hidden_problems">Property problems hidden during viewings</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="issues" id="not_clean" value="not_clean">
+                                    <label class="form-check-label" for="not_clean">Flat not clean on move-in</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="issues" id="damp" value="damp">
+                                    <label class="form-check-label" for="damp">Damp/mould</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="issues" id="noise" value="noise">
+                                    <label class="form-check-label" for="noise">Noise</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="issues" id="insulation" value="insulation">
+                                    <label class="form-check-label" for="insulation">Poor insulation</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="issues" id="deposit" value="deposit">
+                                    <label class="form-check-label" for="deposit">Landlord did not return deposit</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="issues" id="unresponsive" value="unresponsive">
+                                    <label class="form-check-label" for="unresponsive">Landlord was not responsive/make repairs</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check-label">
+                                <label class="form-label form-check-label">Which years were you a tenant for?</label>
+                            </div>
+                        </div>
+                        <div class="row mb-4 mt-1">
                             <div class="col">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="years" id="2019" value="2019">
@@ -113,6 +167,8 @@
                                     <input class="form-check-input" type="checkbox" name="years" id="2021" value="2021">
                                     <label class="form-check-label" for="2021">2021</label>
                                 </div>
+                            </div>
+                            <div class="col">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="years" id="2022" value="2022">
                                     <label class="form-check-label" for="2022">2022</label>
