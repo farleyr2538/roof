@@ -218,7 +218,7 @@ def get_blog_posts():
     return jsonify([{
         'post_id': post.post_id,
         'title': post.title,
-        'content': post.content,
+        'html': post.html,
         'slug': post.slug,
         'created_at': post.created,
         'updated_at': post.updated

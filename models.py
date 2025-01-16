@@ -39,7 +39,7 @@ class BlogPost(db.Model):
     __tablename__ = 'blog_posts'
     post_id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, nullable=False)
     title = db.Column(db.String, nullable=False)
-    content = db.Column(ARRAY(db.String), nullable=True)
+    html = db.Column(db.String, nullable=True)
     created = db.Column(db.String, nullable=True)
     updated = db.Column(db.String, nullable=True)
     slug = db.Column(db.String, nullable=True)

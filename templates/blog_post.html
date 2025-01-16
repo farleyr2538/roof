@@ -18,13 +18,7 @@ Blog
             .then(response => response.json())
             .then(data => {
                 titleTarget.innerText = data.title;
-                const paragraphs = data.content;
-                console.log(typeof(paragraphs));
-                paragraphs.forEach((paragraph) => {
-                    const para = document.createElement('p');
-                    para.innerText = paragraph;
-                    contentTarget.appendChild(para);
-                });
+                contentTarget.innerHTML = data.html;
             })
             .catch(error => {
                 console.error(error)
@@ -38,13 +32,11 @@ Blog
 
     <div class="container">
         <div class="row justify-content-center mt-5 mb-4">
-            <div id="contentTarget" class="col-sm-6 bg-light rounded px-5 py-2">
+            <div class="col-sm-6 bg-light rounded px-5 py-2">
                 <h1 class="display-5 mt-4" id="titleTarget"></h1>
                 <hr>
+                <div id="contentTarget"></div>
             </div>
-        </div>
-        <div class="row justify-content-center">
-            
         </div>
     </div>
 
