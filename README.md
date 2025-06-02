@@ -1,6 +1,4 @@
 # ROOF
-#### Video Demo:  https://youtu.be/HuvqoRR5IrY
-#### Description:
 
 **Background**
 
