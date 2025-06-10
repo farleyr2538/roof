@@ -36,7 +36,7 @@ def create():
     if query:
         # user exists, so return user_id
         user_id = query.user_id
-        print(f"User {fn + " " + ln} already exists")
+        print(f"User {fn} {ln} already exists")
     else:
         # user doesn't exist, so create user, and find its user_id
         user = User(
@@ -46,7 +46,7 @@ def create():
         )
         db.session.add(user)
         db.session.commit()
-        print(f"User added: {fn + " " + ln}")
+        print(f"User added: {fn} + {ln}")
         user_id = User.query.filter(User.email == email).first().user_id
 
     print(f"User ID: {user_id}")
