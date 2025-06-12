@@ -29,6 +29,7 @@
                 contentCol.classList.add('col', 'col-md-3')
                 
                 // insert data
+                /*
                 contentCol.innerHTML = `
                     <a href="/view_review/${review.rating_id}" class="link-dark text-decoration-none">
                         <p class="no-para-spacing"><b><u>
@@ -37,11 +38,18 @@
                     </a>
                     <p class="no-para-spacing">${review.postcode}</p>
                 `
+                */
+                // insert data
+                contentCol.innerHTML = `
+                    <h6 class="no-para-spacing">${review.address}</h6>
+                    <p class="no-para-spacing"><small>${review.postcode}</small></p>
+                `
                     
                 // create stars col
                 const starsCol = document.createElement('div')
                 starsCol.classList.add('col-3', 'col-md-3', 'd-flex', 'flex-nowrap', 'justify-content-end')
                 const rating = review.landlord_rating
+                console.log("rating received: " + rating)
 
                 for (let x = 0; x < rating; x++) {
                     const star = document.createElement('div')
@@ -86,7 +94,7 @@
                 })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
+                    // console.log(data)
                     load(data);
                 })
                 .catch(error => {

@@ -25,10 +25,7 @@ def create():
 
     fn = data.get('first_name')
     ln = data.get('last_name')
-    print(f"fn: {fn}")
-    print(f"ln: {ln}")
-    print(f"fn is of type {type(fn)}")
-    print(f"ln is of type {type(ln)}")
+    
     email = data.get('email')
 
     query = User.query.filter(User.email == email).first()
