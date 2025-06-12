@@ -65,6 +65,8 @@
                 target.appendChild(reviewRow)
             })
         }
+
+        const show_all = document.getElementById('show_all');
         
         // once the page is loaded, add all the reviews to the table
 
@@ -75,12 +77,15 @@
             .then(response => response.json())
             .then(data => {
                 load(data)
+
+                // all data is showing -> hide "show all ratings"
+                show_all.classList.add('d-none')
             })
             .catch(error => {
                 console.error('Error fetching reviews:', error)
             })
 
-            // add an event listener to the button, getting the reviews which match the filter
+            // add an event listener to the filter button, getting the reviews which match the filter
             document.getElementById('search').addEventListener('keydown', function() {
                 const filter = document.getElementById('search').value;
                 
@@ -96,6 +101,9 @@
                 .then(data => {
                     // console.log(data)
                     load(data);
+
+                    // show "show all ratings" button
+                    show_all.classList.remove('d-none');
                 })
                 .catch(error => {
                     console.error('Error getting search results:', error);
@@ -105,11 +113,14 @@
             document.getElementById('show_all').addEventListener('click', function() {
                 fetch('api/get_all')
                 .then(response => response.json())
-                .then(data =>
-                    load(data)
-                )
+                .then(data =>{
+                    load(data);
+
+                    // hide self
+                    show_all.classList.add('d-none');
+                })
                 .catch(error =>
-                    log.console("Error: " + error)
+                    console.error("Error: " + error)
                 )
             })
 
@@ -161,7 +172,7 @@
         </div>
         <div class="row justify-content-center">
             <div class="col col-sm-6">
-                <button class="btn form-control" type="button" id="show_all">
+                <button class="btn form-control d-none" type="button" id="show_all">
                     Show all ratings
                 </button>
             </div>

@@ -74,7 +74,7 @@ def create():
         time=current_time
     )
 
-    print("about to attempt adding rating to session")
+    print("attempting to add rating to session")
 
     try:
         db.session.add(r)
@@ -134,11 +134,9 @@ def search():
         )
         result = query.all()
         return_value = ratings_schema.dump(result)
-        print("Before: ", return_value)
         for value in return_value:
             value['address'] = value['address'].replace("'", "").title()
             value['postcode'] = value['postcode'].upper()
-        print("After: ", return_value)
         return jsonify(return_value)
     
 
@@ -157,7 +155,7 @@ def get(rating_id):
 
 @api.route('/request-review', methods=['POST'])
 def request_review():
-    # Add these at the start of your route
+
     from flask import current_app
     print("Mail Settings:")
     print(f"MAIL_SERVER: {current_app.config['MAIL_SERVER']}")
