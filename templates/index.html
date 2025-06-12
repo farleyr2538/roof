@@ -60,6 +60,8 @@
                     //window.location.href = '/submit';
                 })
                 .catch(error => console.error('Error: ', error));
+
+                window.location.href = '/submit'
             })
 
             // Star rating functionality
@@ -151,7 +153,7 @@
                     <form id="form" action="/submit" method="POST" autocomplete="on">
                         <div class="mb-3">
                             <label class="form-label" for="first_name">First name:</label>
-                            <input class="form-control" type="text" placeholder="Jerry" name="first_name" id="first_name" required>
+                            <input class="form-control" type="text" placeholder="John" name="first_name" id="first_name" required>
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="last_name">Last name:</label>
@@ -167,7 +169,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="email">Email:</label>
-                            <input class="form-control" type="text" id="email" name="email" placeholder="jerry.smith@aol.com" required>
+                            <input class="form-control" type="text" id="email" name="email" placeholder="john.smith@aol.com" required>
                         </div>
                         <div class="mt-4 mb-3">
                             <label class="form-label" for="rating">Landlord rating:</label>
@@ -263,6 +265,10 @@
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="years" id="2024" value="2024">
+                                    <label class="form-check-label" for="2024">2024</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="years" id="2025" value="2025">
                                     <label class="form-check-label" for="2024">2024</label>
                                 </div>
                             </div>
